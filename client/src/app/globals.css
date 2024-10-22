@@ -8,3 +8,30 @@
 .rubik{ 
     font-family: var(--font-rubik);
 }
+
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+    
+}
+
+@layer base {
+    /* Custom scrollbar styles */
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #263c97;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #2b2b2b;
+    }
+}
