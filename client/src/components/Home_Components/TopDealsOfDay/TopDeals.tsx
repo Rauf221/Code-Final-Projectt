@@ -100,15 +100,15 @@ const TopDealsOfTheDay = () => {
 
   const handleQuickView = (productId: string) => {
     console.log(`Quick view for product ID: ${productId}`);
-    // Add your quick view logic here
+   
   };
 
   return (
     <div className="container mx-auto px-4 py-8 font-rubik ">
       <div className="flex justify-between items-center mb-8">
-        <div>
+        <div className=''>
           <h2 className="text-2xl font-semibold text-gray-900">Top Deals Of The Day</h2>
-          <div className="w-24 h-1 bg-blue-600 mt-2"></div>
+          <div className=" h-[2px] bg-blue-600 mt-2"></div>
         </div>
         
         <div className="flex items-center">

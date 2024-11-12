@@ -1,7 +1,13 @@
-import { redirect } from "next/navigation";
+"use client";
 
-export default function Home() {
-  return (
-   redirect("/shop")
-  );
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+export default function Redirect() {
+    const router = useRouter();
+    useEffect(() => {
+        router.push('/auth/login');
+    }, [router]);
+
+    return null;
 }

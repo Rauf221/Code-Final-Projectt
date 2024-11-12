@@ -4,6 +4,7 @@ import { Heart, Eye, Star, ChevronRight, ChevronLeft } from "lucide-react";
 import { HiOutlineSquare3Stack3D } from "react-icons/hi2";
 import ProductDetailModal from "./Modal/modal";
 
+
 interface Product {
   _id: string;
   slug: string;

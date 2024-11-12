@@ -67,7 +67,7 @@ const PopularCategories = () => {
     <section className="py-12 px-4 continer mx-auto">
       <div className="mb-8">
         <h2 className="text-2xl font-semibold">Popular Categories</h2>
-        <div className="w-52 h-[1px] bg-blue-600 mt-2"></div>
+        <div className="w-52 h-[2px] bg-[#16BCDC] mt-2"></div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
