@@ -7,6 +7,14 @@ const { connectMongoDb } = require('./connection');
 const authRouter = require("./Routes/authentication");
 const userRouter = require("./Routes/users");
 const productRoutes=require("./Routes/product");
+const RecommendedRourtes=require("./Routes/productsForRecommended");
+const filterProductsRoutes=require("./Routes/filterProductsRoutes");
+const contactRoutes = require("./Routes/contactRoutes");
+const postRoutes = require('./Routes/blogRoutes');
+const commentRoutes = require('./Routes/commentRoutes');
+const stripeRoutes = require('./Routes/stripeRoutes');
+
+
 
 dotenv.config();
 
@@ -16,10 +24,15 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());
 
-
-app.use('/api', productRoutes);
+app.use('/api/filter-products', filterProductsRoutes);
+app.use('/api', productRoutes, RecommendedRourtes);
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use('/api/contacts', contactRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api', commentRoutes);
+app.use('/api/stripe', stripeRoutes);
+
 
 app.use((err, req, res, next) => {
     const errorStatus = err.status || 500;

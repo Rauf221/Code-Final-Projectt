@@ -4,6 +4,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { Rubik } from 'next/font/google';
+import { DarkModeProvider } from "@/DarkMode/Darkmode";
+import { CartProvider } from "@/components/Header/HeaderTop/CardContext";
 
 const rubik_init = Rubik({
   subsets: ['latin'],
@@ -24,10 +26,15 @@ export default function RootLayout({
 }>) {
   return (
 <html lang="en">
-
+  
   <body className={rubik_init.variable}>
+    <CartProvider>
+  <DarkModeProvider>
     {children}
+    </DarkModeProvider>
+  </CartProvider>
   </body>
+  
 </html>
   );
 }

@@ -1,23 +1,22 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { FaUser, FaHeart, FaShoppingCart } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
 import { FiHeart } from "react-icons/fi";
 import { MdOutlineKeyboardArrowDown, MdSearch } from "react-icons/md";
 import { PiUser } from "react-icons/pi";
 import { RiShoppingCartLine } from "react-icons/ri";
 import LanguageDropdown from "../language";
 import { useRouter } from "next/navigation";
+import { destroyCookie, parseCookies } from "nookies";
+import ShoppingCartSidebar from "./Sidebar";
+
+
 
 interface User {
   id: string;
-  name: string;
   email: string;
   username: string;
-}
-
-interface AuthSuccessHandler {
-  (token: string, userData: User): void;
+  isAdmin: boolean;
 }
 
 const categories = [
@@ -55,50 +54,56 @@ const categories = [
 const Header = () => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
+  const toggleCartSidebar = () => {
+    setIsCartSidebarOpen(!isCartSidebarOpen);
+  };
+  
+  useEffect(() => {
+    const cookies = parseCookies();
+    const userCookie = cookies.user;
+    if (userCookie) {
+      const userData: User = JSON.parse(userCookie);
+      setUser(userData);
+    }
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
-    // Check for user data in localStorage on component mount
-    const checkAuth = () => {
-      const token = localStorage.getItem("acces_token");
-      const userData = localStorage.getItem("user");
-      
-      if (token && userData) {
-        try {
-          const parsedUser = JSON.parse(userData);
-          setUser(parsedUser);
-        } catch (error) {
-          console.error("Error parsing user data:", error);
-          handleLogout();
-        }
-      } else {
-        setUser(null);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setAuthError(null);
       }
     };
-
-    checkAuth();
-    // Add event listener for storage changes
-    window.addEventListener("storage", checkAuth);
-    
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:2000/auth/logout", {
-        method: "GET",
-        credentials: "include",
+      setIsLoading(true);
+      const response = await fetch('http://localhost:2000/auth/logout', {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
       });
 
       if (response.ok) {
-        localStorage.removeItem("acces_token");
-        localStorage.removeItem("user");
         setUser(null);
-        router.push("/auth/login");
+        destroyCookie(null, 'user');
+        router.push('/auth/login');
+      } else {
+        const errorData = await response.json();
+        setAuthError(errorData.message || 'Logout failed');
       }
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error('Logout error:', error);
+      setAuthError('Logout failed');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -157,32 +162,35 @@ const Header = () => {
           </button>
         </div>
 
-        {/* User Actions */}
+   {/* User Actions */}
         <div className="flex items-center space-x-8">
           {/* User Account */}
-          <div className="flex items-center">
-            {user ? (
-              <div className="flex items-center group relative">
+          <div className="relative" ref={dropdownRef}>
+            {isLoading ? (
+              <div className="text-gray-400">Loading...</div>
+            ) : user ? (
+              <div className="flex items-center group">
                 <PiUser className="text-4xl" />
                 <div className="flex flex-col text-xs">
-                  <span className="ml-1 font-normal text-gray-400">Welcome</span>
+                  <span className="ml-1 font-normal text-gray-400">
+                    {user.isAdmin ? 'Admin' : 'Welcome'}
+                  </span>
                   <span className="ml-1 font-bold">{user.username}</span>
                 </div>
                 {/* Dropdown menu */}
-                <div className="absolute hidden group-hover:block top-full right-0  w-24 bg-white rounded-md shadow-lg py-1 text-black z-[100]">
-                  <button
-                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                    onClick={handleLogout}
-                  >
-                    Logout
+                <div className="absolute hidden group-hover:block top-full right-0 w-48 bg-white rounded-md shadow-lg py-1 text-black z-[100]">
+                  {user.isAdmin && (
+                    <button className="block w-full px-4 py-2 text-sm hover:bg-gray-100" onClick={() => router.push('/admin')}>
+                      Admin Panel
+                    </button>
+                  )}
+                  <button className="block w-full px-4 py-2 text-sm hover:bg-gray-100" onClick={handleLogout} disabled={isLoading}>
+                    {isLoading ? 'Logging out...' : 'Logout'}
                   </button>
                 </div>
               </div>
             ) : (
-              <button
-                onClick={() => router.push("/auth/login")}
-                className="flex items-center"
-              >
+              <button onClick={() => router.push("/auth/login")} className="flex items-center" disabled={isLoading}>
                 <PiUser className="text-4xl" />
                 <div className="flex flex-col text-xs">
                   <span className="ml-1 font-normal text-gray-400">Login</span>
@@ -191,6 +199,7 @@ const Header = () => {
               </button>
             )}
           </div>
+
 
           {/* Wishlist */}
           <div className="flex items-center relative">
@@ -205,17 +214,10 @@ const Header = () => {
           </div>
 
           {/* Shopping Cart */}
-          <div className="flex items-center relative gap-3">
-            <RiShoppingCartLine className="text-4xl" />
-            <div className="flex flex-col text-xs">
-              <span className="ml-1 font-normal text-gray-400">Your Cart</span>
-              <span className="ml-1 font-bold">$0.00</span>
-            </div>
-            <span className="absolute top-0 left-5 bg-cyan-400 text-white text-xs rounded-full ml-1 px-2">
-              0
-            </span>
-          </div>
+         
+          
         </div>
+        <ShoppingCartSidebar  isOpen={isCartSidebarOpen} onClose={toggleCartSidebar} />
       </div>
     </header>
   );

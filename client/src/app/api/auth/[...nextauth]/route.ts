@@ -5,7 +5,7 @@ import type { NextAuthOptions } from 'next-auth'
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    // ... diğer providerlar
+ 
   ],
   callbacks: {
     async jwt({ token, user }) {

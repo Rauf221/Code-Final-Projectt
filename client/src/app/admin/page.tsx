@@ -1,11 +1,13 @@
-import CustomAdminLayout from "@/pages/Admin Panel/admin";
-import { Link } from "lucide-react";
+"use client";
 
-export default function Admin() {
-    return (
-        <CustomAdminLayout>   
-            <div></div>
-        </CustomAdminLayout> 
-    )   
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-}   
+export default function Redirect() {
+    const router = useRouter();
+    useEffect(() => {
+        router.push('/admin/dashboard');
+    }, [router]);
+
+    return null;
+}

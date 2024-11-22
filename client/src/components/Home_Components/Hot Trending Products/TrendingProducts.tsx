@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Heart, Eye, Star, ChevronRight, ChevronLeft } from "lucide-react";
 import { HiOutlineSquare3Stack3D } from "react-icons/hi2";
 import ProductDetailModal from "./Modal/modal";
-
+import { useRouter } from "next/navigation";
+import { useCart } from "@/components/Header/HeaderTop/CardContext";
 
 interface Product {
   _id: string;
@@ -19,6 +20,8 @@ interface Product {
 }
 
 const TrendingProducts = () => {
+  const { addToCart } = useCart();
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(
@@ -26,6 +29,11 @@ const TrendingProducts = () => {
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
+  };
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -112,6 +120,10 @@ const TrendingProducts = () => {
     );
   }
 
+  const handleProductClick = (slug: string) => {
+    router.push(`/home/${slug}`);
+  };
+
   if (error) {
     return (
       <div className="w-full h-64 flex items-center justify-center text-red-500">
@@ -152,7 +164,9 @@ const TrendingProducts = () => {
                 className="px-2"
                 style={{ width: `${100 / products.length}%` }}
               >
-                <div className="bg-white py-3 px-3 rounded-2xl shadow-sm relative  ">
+                <div className="bg-white py-3 px-3 rounded-2xl shadow-sm relative  " 
+                  onClick={() => handleProductClick(product.slug)}
+                  >
                   {product.discount > 0 && (
                     <span className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded z-10">
                       -{product.discount}%
@@ -212,7 +226,8 @@ const TrendingProducts = () => {
                     )}
                   </div>
 
-                  <button className="w-full py-2  rounded-3xl text-white bg-black hover:bg-[#16BCDC] transition-colors duration-500">
+                  <button className="w-full py-2  rounded-3xl text-white bg-black hover:bg-[#16BCDC] transition-colors duration-500" 
+                    onClick={() => handleAddToCart(product)}>
                     Add To Cart
                   </button>
                 </div>

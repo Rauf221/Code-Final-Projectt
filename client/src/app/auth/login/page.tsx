@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { setCookie } from 'nookies';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -34,8 +35,8 @@ const LoginPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
-        credentials: 'include', // Important for cookies
+        body: JSON.stringify(formData), 
+        credentials: 'include', 
       });
 
       const data = await response.json();
@@ -44,25 +45,39 @@ const LoginPage = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      // Store user data and token
-      if (data) {
-        // Store the token
-        localStorage.setItem('acces_token', data.token || data.acces_token);
-        
-        // Store user data without sensitive information
-        const userData = {
-          _id: data._id,
-          username: data.username,
-          email: data.email,
-          // Add any other non-sensitive user data you want to store
-        };
-        localStorage.setItem('user', JSON.stringify(userData));
+    
+      const verifyResponse = await fetch('http://localhost:2000/users/checkauthentication', {
+        credentials: 'include',
+      });
 
-        // Redirect to home page
+      if (!verifyResponse.ok) {
+        throw new Error('Token verification failed');
+      }
+
+   
+      setCookie(null, 'user', JSON.stringify({
+        _id: data._id,
+        username: data.username,
+        email: data.email,
+        isAdmin: data.isAdmin,
+      }), {
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 24 * 60 * 60 
+      });
+
+      
+      if (data.isAdmin === true) {
+        router.push('/admin');
+      } else if (data.isAdmin === false) {
         router.push('/home');
       }
+
     } catch (err) {
       setError(err.message || 'An error occurred during login');
+      
+      setCookie(null, 'user', '', { path: '/', maxAge: -1 });
     } finally {
       setLoading(false);
     }
@@ -71,7 +86,6 @@ const LoginPage = () => {
   return (
     <div className="bg-blue-900 absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-blue-600 leading-5 h-full w-full overflow-hidden">
       <div className="relative min-h-screen sm:flex sm:flex-row justify-center bg-transparent rounded-3xl shadow-xl">
-        {/* Left Section */}
         <div className="flex-col flex self-center lg:px-14 sm:max-w-4xl xl:max-w-md z-10">
           <div className="self-start hidden lg:flex flex-col text-gray-300">
             <h1 className="my-3 font-semibold text-4xl">Welcome back</h1>
@@ -82,7 +96,6 @@ const LoginPage = () => {
           </div>
         </div>
 
-        {/* Login Form */}
         <div className="flex justify-center self-center z-10">
           <div className="p-12 bg-transparent border border-1 mx-auto rounded-3xl w-96">
             <div className="mb-7">
@@ -102,7 +115,7 @@ const LoginPage = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Email Input */}
+            
               <div>
                 <input
                   className="w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
@@ -115,7 +128,7 @@ const LoginPage = () => {
                 />
               </div>
 
-              {/* Password Input */}
+             
               <div className="relative">
                 <input
                   className="w-full text-sm text-gray-800 px-4 py-3 rounded-lg bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
@@ -135,7 +148,7 @@ const LoginPage = () => {
                 </button>
               </div>
 
-              {/* Forgot Password */}
+            
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <input
@@ -153,7 +166,7 @@ const LoginPage = () => {
                 </Link>
               </div>
 
-              {/* Sign In Button */}
+           
               <button
                 type="submit"
                 disabled={loading}
@@ -162,7 +175,6 @@ const LoginPage = () => {
                 {loading ? 'Signing in...' : 'Sign in'}
               </button>
 
-              {/* Social Login Section */}
               <div className="flex items-center justify-center space-x-2">
                 <span className="h-px w-16 bg-gray-300"></span>
                 <span className="text-gray-300 font-normal">or continue with</span>
@@ -210,7 +222,6 @@ const LoginPage = () => {
         </div>
       </div>
 
-      {/* Background Wave */}
       <svg
         className="absolute bottom-0 left-0"
         xmlns="http://www.w3.org/2000/svg"

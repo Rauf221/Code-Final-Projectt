@@ -1,46 +1,43 @@
-// middleware.ts
-
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { getToken } from 'next-auth/jwt'
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  // Admin panel yollarını kontrol et
-  const isAdminPanel = request.nextUrl.pathname.startsWith('/admin')
-  
-  if (isAdminPanel) {
-    try {
-      // JWT token'ı al
-      const token = await getToken({ 
-        req: request, 
-        secret: process.env.NEXTAUTH_SECRET 
-      })
+  const url = request.nextUrl.clone();
+  const pathname = url.pathname;
+  const userCookie = request.cookies.get('user');
 
-      // Token yoksa login sayfasına yönlendir
-      if (!token) {
-        return NextResponse.redirect(new URL('/auth/login', request.url))
-      }
+  // If no user is logged in, redirect to login for /home or /admin routes
+  if (!userCookie && (pathname.startsWith('/home') || pathname.startsWith('/admin'))) {
+    return NextResponse.redirect(new URL('/auth/login', request.url));
+  }
 
-      // Token'da role kontrolü yap
-      if (token.role !== 'admin') {
-        // Yetkisiz erişim sayfasına yönlendir
-        return NextResponse.redirect(new URL('/unauthorized', request.url))
-      }
+  // Parse user data from the cookie if it exists
+  let userData;
+  try {
+    userData = userCookie ? JSON.parse(userCookie.value) : null;
+  } catch (error) {
+    console.error('Error parsing user cookie:', error);
+    return NextResponse.redirect(new URL('/auth/login', request.url));
+  }
 
-      // Admin ise devam et
-      return NextResponse.next()
-    } catch (error) {
-      // Hata durumunda login sayfasına yönlendir
-      console.error('Middleware Error:', error)
-      return NextResponse.redirect(new URL('/home', request.url))
+  // Ensure only authenticated users access /home and /admin routes
+  if (pathname.startsWith('/home') || pathname.startsWith('/admin') || pathname.startsWith('/filterontheleft') || pathname.startsWith('/about-us') || pathname.startsWith('/contact-us') || pathname.startsWith('/faqs') || pathname.startsWith('/our-team')) {
+    // Block access for non-logged-in users
+    if (!userData) {
+      return NextResponse.redirect(new URL('/auth/login', request.url));
+    }
+
+    // For /admin routes, allow only if user is an admin
+    if (pathname.startsWith('/admin') && !userData.isAdmin) {
+      return NextResponse.redirect(new URL('/unauthorized', request.url));
     }
   }
 
-  // Admin panel değilse normal devam et
-  return NextResponse.next()
+  // Allow access if all checks pass
+  return NextResponse.next();
 }
 
-// Sadece admin/* yolları için çalıştır
+// Apply the middleware to both /home/* and /admin/* routes
 export const config = {
-  matcher: '/admin/:path*'
-}
+  matcher: ['/home/:path*', '/admin/:path*' , '/filterontheleft/:path* ', '/about-us/:path*', '/contact-us/:path*', '/faqs/:path* ', '/our-team/:path*'],
+};

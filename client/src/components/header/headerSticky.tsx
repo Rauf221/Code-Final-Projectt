@@ -1,11 +1,11 @@
 "use client";
 
+import MegaMenu from "./MegaMenu/MegaMenu";
+import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { PiSealPercentFill } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
-import MegaMenu from "./MegaMenu/MegaMenu";
-
-import { useState, useEffect, useRef } from "react";
 
 const NavBar = () => {
   const [isMegaMenuOpen, setMegaMenuOpen] = useState(false);
@@ -15,6 +15,16 @@ const NavBar = () => {
   const megaMenuRef = useRef<HTMLDivElement>(null);
   const navbarRef = useRef<HTMLDivElement>(null);
 
+  const menuItems = [
+    { name: "About us", path: "/about-us" },
+    { name: "Coming Soon", path: "/coming-soon" },
+    { name: "FAQs", path: "/faqs" },
+    { name: "Our Team", path: "/our-team" },
+    { name: "Payment Plans", path: "/payment-plans" },
+    { name: "Page 404", path: "/404" },
+    { name: "Gift Cards", path: "/gift-cards" },
+  ];
+
   const toggleMegaMenu = () => {
     setMegaMenuOpen(!isMegaMenuOpen);
   };
@@ -23,10 +33,10 @@ const NavBar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-      
+
       // Set sticky state based on 150px threshold
       setIsSticky(currentScrollPos > 150);
-      
+
       // If less than 170px, keep navbar in original position
       if (currentScrollPos < 170) {
         setIsVisible(true);
@@ -40,15 +50,19 @@ const NavBar = () => {
       setPrevScrollPos(currentScrollPos);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
 
   // Handle clicks outside MegaMenu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (megaMenuRef.current && !megaMenuRef.current.contains(event.target as Node) && 
-          navbarRef.current && !navbarRef.current.contains(event.target as Node)) {
+      if (
+        megaMenuRef.current &&
+        !megaMenuRef.current.contains(event.target as Node) &&
+        navbarRef.current &&
+        !navbarRef.current.contains(event.target as Node)
+      ) {
         setMegaMenuOpen(false);
       }
     };
@@ -66,22 +80,25 @@ const NavBar = () => {
 
   return (
     <div className="relative z-50">
-      <div 
+      <div
         className={`w-full transition-transform duration-500
-          ${isSticky ? 'fixed top-0 left-0 right-0' : 'relative'} 
-          ${isSticky && !isVisible ? '-translate-y-full' : 'translate-y-0'}
+          ${isSticky ? "fixed top-0 left-0 right-0" : "relative"} 
+          ${isSticky && !isVisible ? "-translate-y-full" : "translate-y-0"}
         `}
       >
-        <nav 
+        <nav
           ref={navbarRef}
           className={`bg-[#263c97] text-white w-full rubik z-[60]
-            ${isSticky ? 'shadow-lg' : ''}
+            ${isSticky ? "shadow-lg" : ""}
           `}
         >
           <div className="flex justify-start gap-[20px] items-center">
             {/* Left Menu */}
             <div className="flex items-center group space-x-1 text-sm font-bold relative">
-              <button className="flex items-center text-start py-4 w-[300px] justify-start space-x-2" onClick={toggleMegaMenu}>
+              <button
+                className="flex items-center text-start py-4 w-[300px] justify-start space-x-2"
+                onClick={toggleMegaMenu}
+              >
                 <span className="absolute top-0 left-1/2 w-0 transition-all opacity-0 h-0.5 duration-700 bg-cyan-400 group-hover:w-3/6 group-hover:opacity-100"></span>
                 <span className="absolute top-0 right-1/2 w-0 transition-all opacity-0 h-0.5 duration-700 bg-cyan-400 group-hover:w-3/6 group-hover:opacity-100"></span>
                 <span className="text-white text-xl group font-bold">
@@ -91,12 +108,14 @@ const NavBar = () => {
               </button>
               <span className="font-thin">|</span>
             </div>
-           
+
             {/* Center Links */}
             <ul className="flex items-center space-x-4 relative">
               <li className="group">
                 <button className="flex items-center space-x-1">
-                  <a href="#" className="text-sm font-medium">HOME</a>
+                  <a href="#" className="text-sm font-medium">
+                    HOME
+                  </a>
                   <MdOutlineKeyboardArrowDown />
                 </button>
                 {/* Dropdown */}
@@ -116,7 +135,9 @@ const NavBar = () => {
 
               <li className="group">
                 <button className="flex items-center space-x-1">
-                  <a href="#" className="text-sm font-medium">SHOP</a>
+                  <a href="#" className="text-sm font-medium">
+                    SHOP
+                  </a>
                   <MdOutlineKeyboardArrowDown />
                 </button>
 
@@ -143,7 +164,7 @@ const NavBar = () => {
                             key={index}
                             className="px-4 py-1 font-normal text-[#888888] hover:text-cyan-400 hover:translate-x-2 transition-transform duration-300"
                           >
-                            <a href="#">{item}</a>
+                            <a href="/filterontheleft">{item}</a>
                           </li>
                         ))}
                       </ul>
@@ -216,7 +237,9 @@ const NavBar = () => {
 
               <li className="group">
                 <button className="flex items-center space-x-1">
-                  <a href="#" className="text-sm font-medium">PRODUCT</a>
+                  <a href="#" className="text-sm font-medium">
+                    PRODUCT
+                  </a>
                   <MdOutlineKeyboardArrowDown />
                 </button>
 
@@ -295,90 +318,86 @@ const NavBar = () => {
 
               <li className="relative group">
                 <button className="flex items-center space-x-1">
-                  <a href="#" className="text-sm font-medium">PAGES</a>
+                  <span className="text-sm font-medium">PAGES</span>
+                  <MdOutlineKeyboardArrowDown />
+                </button>
+                <ul className="absolute left-0 invisible group-hover:visible block text-black pt-5 transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-3">
+                  <div className="group">
+                    <ul className="absolute top-full -translate-x-4 text-sm w-[200px] bg-white text-black py-2">
+                      {menuItems.map((item, index) => (
+                        <li
+                          key={index}
+                          className="px-4 py-1 font-normal text-[#888888] hover:text-cyan-400 hover:translate-x-2 transition-transform duration-300"
+                        >
+                          <Link href={item.path}>{item.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </ul>
+              </li>
+
+              <li className=" relative group">
+                <button className="flex items-center text-sm font-medium">
+                  <a href="#">BLOG</a>
                   <MdOutlineKeyboardArrowDown />
                 </button>
                 <ul className="absolute left-0 invisible group-hover:visible block text-black pt-5 transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-3">
                   <div className="group">
                     <ul className="absolute top-full -translate-x-4 text-sm w-[200px] bg-white text-black py-2">
                       {[
-                        "About us",
-                        "Comeing Soon",
-                        "FAQs",
-                        "Our Team",
-                        "Payment Plans",
-                        "Page 404",
-                        "Gift Cards",
+                        { name: "Blog Image", path: "/blog/image" },
+                        { name: "Blog Grid", path: "/blog/grid" },
+                        {
+                          name: "Blog Grid 2 Column",
+                          path: "/blog/grid-2-column",
+                        },
+                        {
+                          name: "Blog Grid 3 Column",
+                          path: "/blog",
+                        },
+                        { name: "Blog List", path: "/blog/list" },
                       ].map((item, index) => (
                         <li
                           key={index}
                           className="px-4 py-1 font-normal text-[#888888] hover:text-cyan-400 hover:translate-x-2 transition-transform duration-300"
                         >
-
-                        <a href="#">{item}</a>
-                      </li>
-                    ))}
-                  </ul>
-             </div>
+                          <Link href={item.path}>{item.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </ul>
+              </li>
+              <li className="text-sm font-medium">
+                <a href="/contact-us">CONTACT US</a>
+              </li>
             </ul>
-          </li>
 
-          <li className=" relative group">
-           <button className="flex items-center text-sm font-medium">
-           <a href="#">BLOG</a>
-           <MdOutlineKeyboardArrowDown />
-           </button>
-           <ul className="absolute left-0 invisible group-hover:visible block  text-black pt-5  transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-3">
-            <div className="group  ">
-                  <ul className="absolute top-full  -translate-x-4 text-sm w-[200px] bg-white text-black py-2 ">
-                    {[
-                      "Blog Image",
-                      "Blog Grid",
-                      "Blog Grid 2 Column",
-                      "Blog Grid 3 Column",
-                      "Blog List",
-                    ].map((item, index) => (
-                      <li
-                        key={index}
-                        className="px-4 py-1 font-normal text-[#888888] hover:text-cyan-400 hover:translate-x-2 transition-transform duration-300"
-                      >
-                        <a href="#">{item}</a>
-                      </li>
-                    ))}
-                  </ul>
-             </div>
-            </ul>
-          </li>
-          <li className="text-sm font-medium">
-            <a href="#">CONTACT US</a>
-          </li>
-        </ul>
-
-        {/* Right Section */}
-        <div className="flex items-center justify-center pl-[410px]">
-          <span className="text-cyan-400 text-2xl">
-            <PiSealPercentFill />
-          </span>
-          <span className="px-2 py-1 text-sm font-bold">
-            Sale $20 Off Your First Order
-          </span>
-        </div>
-      
-      </div>
-    </nav>
-    {isMegaMenuOpen && (
+            {/* Right Section */}
+            <div className="flex items-center justify-center pl-[410px]">
+              <span className="text-cyan-400 text-2xl">
+                <PiSealPercentFill />
+              </span>
+              <span className="px-2 py-1 text-sm font-bold">
+                Sale $20 Off Your First Order
+              </span>
+            </div>
+          </div>
+        </nav>
+        {isMegaMenuOpen && (
           <>
             {/* Overlay */}
-            <div 
+            <div
               className="fixed inset-0 bg-black opacity-40 z-[40] h-screen"
               onClick={() => setMegaMenuOpen(false)}
             />
-              
+
             {/* MegaMenu */}
-            <div 
-              ref={megaMenuRef} 
+            <div
+              ref={megaMenuRef}
               className={`absolute w-full px-2 z-50 transition-transform duration-500
-                ${isSticky ? 'top-full' : 'top-full'}
+                ${isSticky ? "top-full" : "top-full"}
               `}
             >
               <MegaMenu />
