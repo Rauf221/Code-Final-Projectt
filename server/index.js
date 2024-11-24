@@ -13,7 +13,7 @@ const contactRoutes = require("./Routes/contactRoutes");
 const postRoutes = require('./Routes/blogRoutes');
 const commentRoutes = require('./Routes/commentRoutes');
 const stripeRoutes = require('./Routes/stripeRoutes');
-
+const reviewRoutes = require('./Routes/reviewRoutes');
 
 
 dotenv.config();
@@ -32,6 +32,7 @@ app.use('/api/contacts', contactRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api', commentRoutes);
 app.use('/api/stripe', stripeRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 
 app.use((err, req, res, next) => {

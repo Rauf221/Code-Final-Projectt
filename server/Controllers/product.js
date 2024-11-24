@@ -34,7 +34,7 @@ exports.createProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true }); // Use findByIdAndUpdate
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true }); 
     if (!updatedProduct) return res.status(404).json({ message: 'Product not found' });
     res.status(200).json(updatedProduct);
   } catch (err) {
@@ -45,7 +45,7 @@ exports.updateProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id); // Use findByIdAndDelete
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id); 
     if (!deletedProduct) return res.status(404).json({ message: 'Product not found' });
     res.status(200).json({ message: 'Product deleted' });
   } catch (err) {
@@ -54,7 +54,7 @@ exports.deleteProduct = async (req, res) => {
 };
 exports.getProductBySlug = async (req, res) => {
   try {
-    const product = await Product.findOne({ slug: req.params.slug }); // Slug ile ürünü bul
+    const product = await Product.findOne({ slug: req.params.slug }); 
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.status(200).json(product);
   } catch (err) {

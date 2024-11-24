@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import { ReactNode } from 'react';
-
-
 import { Content } from '../Content/Content';
 import ProductFilterSidebar from '@/components/FilterOnTheLeft_Components/FilterSidebar/Filtersidebar';
 import ProductListWithFilters from '../ProductList/List';
+import FilterOnTheLeftSlider from '../Slider/Slider';
+
+interface FilterState {
+  availability: {
+    inStock: boolean;
+    outOfStock: boolean;
+  };
+  price: {
+    min: number;
+    max: number;
+  };
+  color: string[];
+  brands: string[];
+  sizes: string[];
+  productTypes: string[];
+  tags: string[];
+}
 
 const FilterationPage = ({ children }: { children: ReactNode }) => {
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<FilterState>({
     availability: { inStock: false, outOfStock: false },
     price: { min: 0, max: 1300 },
     color: [],
@@ -16,22 +31,33 @@ const FilterationPage = ({ children }: { children: ReactNode }) => {
     productTypes: [],
     tags: [],
   });
-  const [slideOpen, setSlideOpen] = useState(false);
-  const selectedColors = filters.color;
 
-  const handleFilterChange = (newFilters: any) => {
+  const [slideOpen, setSlideOpen] = useState(false);
+
+  const handleFilterChange = (newFilters: FilterState) => {
     setFilters(newFilters);
   };
 
   return (
-    <div className="flex h-screen">
-      {/* Pass filters state and the handleFilterChange function */}
-      <ProductFilterSidebar filters={{ ...filters, color: selectedColors }} onFilterChange={handleFilterChange} />
-      <Content filters={filters} slideOpen={slideOpen} onToggle={() => setSlideOpen(!slideOpen)}>
-        {/* Pass filters as prop to ProductListWithFilters */}
+    <>
+    <div>
+      <FilterOnTheLeftSlider/>
+    </div>
+   
+    <div className="flex min-h-screen">
+      <ProductFilterSidebar
+        filters={filters}
+        onFilterChange={handleFilterChange}
+      />
+      <Content
+        filters={filters}
+        slideOpen={slideOpen}
+        onToggle={() => setSlideOpen(!slideOpen)}
+      >
         <ProductListWithFilters filters={filters} />
       </Content>
     </div>
+    </>
   );
 };
 

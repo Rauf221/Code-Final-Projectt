@@ -26,11 +26,11 @@ interface ProductDetailProps {
   };
 }
 
-const ProductDetail = async ({ params }: ProductDetailProps) => {
+const RecommendedProductDetail = async ({ params }: ProductDetailProps) => {
   const { slug } = params;
 
   try {
-    const res = await fetch(`http://localhost:2000/api/products/slug/${slug}`, {
+    const res = await fetch(`http://localhost:2000/api/recommendedproducts/slug/${slug}`, {
       cache: "no-store",
     });
 
@@ -44,7 +44,10 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
       <>
         <Header />
         <NavBar />
+        <div className="bg-[#F4F5F7]">
+          
         <ProductDetailClient product={product} />
+        </div>
         <Footer />
       </>
     );
@@ -54,4 +57,4 @@ const ProductDetail = async ({ params }: ProductDetailProps) => {
   }
 };
 
-export default ProductDetail;
+export default RecommendedProductDetail;

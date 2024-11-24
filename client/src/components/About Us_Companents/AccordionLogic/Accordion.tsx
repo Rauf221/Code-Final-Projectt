@@ -71,7 +71,6 @@ const AccordionSection = () => {
 
   return (
     <div className="bg-gray-100 py-10 w-full rubik">
-      {/* Section Header */}
       <div className="text-center mb-8 px-6">
         <h2 className="text-md font-medium mb-2 text-[#16BCDC] uppercase">
           Why Choose Us
@@ -85,7 +84,6 @@ const AccordionSection = () => {
         </p>
       </div>
 
-      {/* Accordion Items */}
       <div className="flex ">
       <ul className="mx-auto pl-4 pr-2 w-[50%]">
         {items.map((item) => (

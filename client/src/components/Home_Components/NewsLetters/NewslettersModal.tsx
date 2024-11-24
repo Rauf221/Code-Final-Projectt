@@ -11,12 +11,11 @@ const NewsletterModal = () => {
   const [dontShow, setDontShow] = useState(false);
 
   useEffect(() => {
-    // Check if user has previously chosen not to show the modal
     const hideModal = localStorage.getItem('hideNewsletterModal');
     if (!hideModal) {
       const timer = setTimeout(() => {
         setIsOpen(true);
-      }, 40); // 30 seconds
+      }, 50000);  
 
       return () => clearTimeout(timer);
     }
@@ -31,7 +30,6 @@ const NewsletterModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your newsletter signup logic here
     console.log('Submitting email:', email);
     handleClose();
   };
@@ -56,7 +54,6 @@ const NewsletterModal = () => {
         exit={{ scale: 0.9, opacity: 0 }}
         className="bg-white rounded-lg max-w-4xl h-[450px] w-full overflow-hidden relative flex flex-col md:flex-row bg-[url('https://demo-morata.myshopify.com/cdn/shop/files/bg_newsletterpopup_1920x.jpg?v=1699260734')] bg-cover"
       >
-        {/* Close Button */}
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors"
@@ -64,11 +61,9 @@ const NewsletterModal = () => {
           <IoClose size={24} />
         </button>
 
-        {/* Image Section */}
         <div className=" md:w-1/2 "></div>
           
 
-        {/* Content Section */}
         <div className="p-8 md:w-1/2  flex flex-col items-start justify-center">
           <div className="space-y-6">
             <div className="text-center">

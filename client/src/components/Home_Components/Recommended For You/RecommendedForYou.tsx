@@ -4,6 +4,7 @@ import { Heart, Eye, Star, ChevronRight, ChevronLeft } from "lucide-react";
 import { HiOutlineSquare3Stack3D } from "react-icons/hi2";
 import RecommendedProductDetailModal from "./ModalForRecommended/modalForrecommended";
 import { useCart } from "@/components/Header/HeaderTop/CardContext";
+import { useRouter } from "next/navigation";
 
 
 interface Product {
@@ -21,6 +22,7 @@ interface Product {
 
 const RecommendedProducts = () => {
   const { addToCart } = useCart();
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(
@@ -86,6 +88,9 @@ const RecommendedProducts = () => {
   const handleNext = () => {
     setCurrentIndex((current) => Math.min(maxIndex, current + 1));
   };
+  const handleProductClick = (slug: string) => {
+    router.push(`/home/recommended-products/${slug}`);
+  };
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -112,8 +117,21 @@ const RecommendedProducts = () => {
 
   if (loading) {
     return (
-      <div className="w-full h-64 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+      <div className="w-full grid grid-cols-7 gap-6 py-6">
+        {Array(7)
+          .fill(0)
+          .map((_, index) => (
+            <div
+              key={index}
+              className="bg-white py-3 px-3 rounded-2xl shadow-sm animate-pulse"
+            >
+              <div className="w-full h-40 bg-gray-200 rounded-lg mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded mb-2 w-3/4"></div>
+              <div className="h-4 bg-gray-200 rounded mb-2 w-1/2"></div>
+              <div className="h-8 bg-gray-300 rounded w-full"></div>
+            </div>
+          ))}
       </div>
     );
   }
@@ -131,10 +149,10 @@ const RecommendedProducts = () => {
       <div className="flex justify-between items-center px-6 mb-6">
         <div>
           <h2 className="text-2xl font-semibold text-gray-800">
-            Hot Trending Products
+            Recommended For You
           </h2>
-          <span className="h-[1px] w- bg-black block">
-            <span className="h-[1px] w-[245px] bg-blue-600 absolute"></span>
+          <span className="h-[2px] w-  block">
+            <span className="h-[2px] w-[250px] bg-[#16BCDC] absolute"></span>
           </span>
         </div>
         <button className="flex items-center text-blue-600 hover:text-blue-700">
@@ -194,7 +212,8 @@ const RecommendedProducts = () => {
                     </div>
                   </div>
 
-                  <h3 className="text-sm font-medium text-[#2880D1] hover:text-[#EA0D42] transition-colors duration-300 mb-2 h-11 line-clamp-2">
+                  <h3 className="text-sm font-medium text-[#2880D1] hover:text-[#EA0D42] transition-colors duration-300 mb-2 h-11 line-clamp-2"
+                  onClick={() => handleProductClick(product.slug)}>
                     {product.title}
                   </h3>
 

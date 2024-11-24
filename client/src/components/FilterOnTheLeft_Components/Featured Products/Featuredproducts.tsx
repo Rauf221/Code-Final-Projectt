@@ -56,14 +56,12 @@ const FeaturedProducts = () => {
       <div className=" w-full ">
         {products.map((product) => (
           <div key={product.id} className="group relative flex gap-3 bg-white py-4    transition-shadow duration-300">
-            {/* Discount Badge */}
             {product.discount && (
               <div className="absolute top-2 left-2 z-10 bg-[#5AAB19] text-white px-3 py-1 rounded-sm text-sm">
                 -{product.discount}%
               </div>
             )}
             
-            {/* Product Images with Hover Effect */}
             <div className="  ">
                 <img
                   src={product.image}
@@ -79,13 +77,11 @@ const FeaturedProducts = () => {
                 )}
               </div>
 
-            {/* Product Details */}
             <div className='w-[60%]'>
               <h3 className="text-blue-500 hover:text-blue-700 line-clamp-2 leading-tight font-medium  transition-colors duration-200">
                 {product.name}
               </h3>
               
-              {/* Rating Stars */}
               <div className="flex ">
                 {[...Array(product.rating)].map((_, i) => (
                   <svg
@@ -98,7 +94,6 @@ const FeaturedProducts = () => {
                 ))}
               </div>
 
-              {/* Price */}
               <div className="flex items-center gap-2">
                 <span className="text-red-500 font-bold">${product.price.toFixed(2)}</span>
                 {product.originalPrice && (

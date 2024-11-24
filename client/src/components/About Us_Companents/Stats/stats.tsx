@@ -31,7 +31,6 @@ const StatsSection = () => {
 
   return (
     <div className="py-20 bg-white w-full rubik">
-      {/* Stats Grid */}
       <div className=" mx-auto px-4 sm:px-6 ">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {stats.map((stat, index) => (
@@ -45,7 +44,6 @@ const StatsSection = () => {
         </div>
       </div>
       <div className='w-full h-[1px] bg-slate-200 mt-20'></div>
-      {/* Experience Section */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-20">
         <h2 className="text-[#16BCDC] text-sm font-medium mb-4">WHY CHOOSE US</h2>
         <h3 className="text-3xl font-medium text-gray-900 mb-3">

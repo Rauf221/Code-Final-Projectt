@@ -1,6 +1,5 @@
 const FilterProducts = require('../Models/FilterProducts');
 
-// Get all products with advanced filtering, sorting, and pagination
 exports.getAllFilteredProducts = async (req, res) => {
   try {
     const {
@@ -11,9 +10,8 @@ exports.getAllFilteredProducts = async (req, res) => {
 
     let filterCriteria = {};
 
-    // Add filters based on query parameters
     if (name) {
-      filterCriteria.name = { $regex: name, $options: 'i' }; // Case-insensitive search
+      filterCriteria.name = { $regex: name, $options: 'i' }; 
     }
     if (priceMin || priceMax) {
       filterCriteria.price = {};
@@ -26,41 +24,37 @@ exports.getAllFilteredProducts = async (req, res) => {
       if (ratingMax) filterCriteria.rating.$lte = parseFloat(ratingMax);
     }
     if (discount) {
-      filterCriteria.discount = { $exists: true, $ne: null }; // Check if discount exists
+      filterCriteria.discount = { $exists: true, $ne: null }; 
     }
     if (availability) {
       filterCriteria.availability = availability;
     }
     if (category) {
-      filterCriteria.category = { $regex: category, $options: 'i' }; // Case-insensitive
+      filterCriteria.category = { $regex: category, $options: 'i' }; 
     }
     if (color) {
-      filterCriteria.color = { $in: color.split(',') }; // Handle multiple colors
+      filterCriteria.color = { $in: color.split(',') }; 
     }
     if (brand) {
-      filterCriteria.brand = { $in: brand.split(',') }; // Handle multiple brands
+      filterCriteria.brand = { $in: brand.split(',') }; 
     }
     if (size) {
       filterCriteria.size = size;
     }
 
-    // Pagination setup
     const skip = (page - 1) * limit;
     const limitNum = parseInt(limit);
 
-    // Sorting setup
     let sortCriteria = {};
     if (sortBy && sortOrder) {
       sortCriteria[sortBy] = sortOrder === 'desc' ? -1 : 1;
     }
 
-    // Fetch products with the constructed filter criteria
     const filterProducts = await FilterProducts.find(filterCriteria)
       .skip(skip)
       .limit(limitNum)
       .sort(sortCriteria);
 
-    // Count total products for pagination
     const totalCount = await FilterProducts.countDocuments(filterCriteria);
 
     res.status(200).json({
@@ -75,7 +69,6 @@ exports.getAllFilteredProducts = async (req, res) => {
   }
 };
 
-// Ürün ID'ye göre getirme
 exports.getFilterProductById = async (req, res) => {
   try {
     const filterProduct = await FilterProducts.findById(req.params.id);
@@ -86,7 +79,6 @@ exports.getFilterProductById = async (req, res) => {
   }
 };
 
-// Yeni ürün oluşturma
 exports.createFilterProduct = async (req, res) => {
   try {
     const newProduct = new FilterProducts(req.body);
@@ -97,7 +89,6 @@ exports.createFilterProduct = async (req, res) => {
   }
 };
 
-// Ürünü ID'ye göre güncelleme
 exports.updateFilterProduct = async (req, res) => {
   try {
     const updatedProduct = await FilterProducts.findByIdAndUpdate(req.params.id, req.body, {
@@ -111,7 +102,6 @@ exports.updateFilterProduct = async (req, res) => {
   }
 };
 
-// Ürünü ID'ye göre silme
 exports.deleteFilterProduct = async (req, res) => {
   try {
     const deletedProduct = await FilterProducts.findByIdAndDelete(req.params.id);

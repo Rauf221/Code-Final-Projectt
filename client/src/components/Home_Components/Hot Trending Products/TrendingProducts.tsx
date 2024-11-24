@@ -114,14 +114,27 @@ const TrendingProducts = () => {
 
   if (loading) {
     return (
-      <div className="w-full h-64 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+      <div className="w-full grid grid-cols-7 gap-6 py-6">
+        {Array(7)
+          .fill(0)
+          .map((_, index) => (
+            <div
+              key={index}
+              className="bg-white py-3 px-3 rounded-2xl shadow-sm animate-pulse"
+            >
+              <div className="w-full h-40 bg-gray-200 rounded-lg mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded mb-2 w-3/4"></div>
+              <div className="h-4 bg-gray-200 rounded mb-2 w-1/2"></div>
+              <div className="h-8 bg-gray-300 rounded w-full"></div>
+            </div>
+          ))}
       </div>
     );
   }
 
   const handleProductClick = (slug: string) => {
-    router.push(`/home/${slug}`);
+    router.push(`/home/top-trending-products/${slug}`);
   };
 
   if (error) {
@@ -139,8 +152,8 @@ const TrendingProducts = () => {
           <h2 className="text-2xl font-semibold text-gray-800">
             Hot Trending Products
           </h2>
-          <span className="h-[1px] w- bg-black block">
-            <span className="h-[1px] w-[245px] bg-blue-600 absolute"></span>
+          <span className="h-[2px] w-  block">
+            <span className="h-[2px] w-[245px] bg-[#16BCDC] absolute"></span>
           </span>
         </div>
         <button className="flex items-center text-blue-600 hover:text-blue-700">
@@ -165,7 +178,7 @@ const TrendingProducts = () => {
                 style={{ width: `${100 / products.length}%` }}
               >
                 <div className="bg-white py-3 px-3 rounded-2xl shadow-sm relative  " 
-                  onClick={() => handleProductClick(product.slug)}
+                 
                   >
                   {product.discount > 0 && (
                     <span className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded z-10">
@@ -202,7 +215,8 @@ const TrendingProducts = () => {
                     </div>
                   </div>
 
-                  <h3 className="text-sm font-medium text-[#2880D1] hover:text-[#EA0D42] transition-colors duration-300 mb-2 h-11 line-clamp-2">
+                  <h3 className="text-sm font-medium text-[#2880D1] hover:text-[#EA0D42] transition-colors duration-300 mb-2 h-11 line-clamp-2"
+                     onClick={() => handleProductClick(product.slug)}>
                     {product.title}
                   </h3>
 

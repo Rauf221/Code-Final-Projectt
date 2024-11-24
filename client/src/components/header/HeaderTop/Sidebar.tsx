@@ -14,7 +14,6 @@ const ShoppingCartSidebar = () => {
 
   return (
     <div>
-      {/* Shopping Cart Trigger */}
       <div 
         className="flex items-center relative gap-3 cursor-pointer" 
         onClick={toggleSidebar}
@@ -31,18 +30,15 @@ const ShoppingCartSidebar = () => {
         )}
       </div>
 
-      {/* Overlay */}
       {isSidebarOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-[999]" 
           onClick={toggleSidebar}
         >
-          {/* Cart Sidebar */}
           <div
             className="fixed top-0 right-0 w-[400px] bg-white h-full shadow-xl z-[1000]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
             <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200">
               <h2 className="text-lg font-bold text-gray-900">SHOPPING CART</h2>
               <button 
@@ -53,7 +49,6 @@ const ShoppingCartSidebar = () => {
               </button>
             </div>
 
-            {/* Cart Content */}
             <div className="p-6 overflow-y-auto max-h-[calc(100vh-250px)]">
               {cartItems.length === 0 ? (
                 <div className="text-center text-gray-500 py-8">
@@ -83,7 +78,6 @@ const ShoppingCartSidebar = () => {
                         ${(item.price * item.quantity).toFixed(2)}
                       </p>
                       
-                      {/* Quantity Controls */}
                       <div className="flex items-center mt-3">
                         <button 
                           onClick={() => updateQuantity(item._id, item.quantity - 1)}
@@ -123,7 +117,6 @@ const ShoppingCartSidebar = () => {
               )}
             </div>
 
-            {/* Footer */}
             {cartItems.length > 0 && (
               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gray-50">
                 <div className="flex justify-between items-center mb-4">
@@ -133,7 +126,6 @@ const ShoppingCartSidebar = () => {
                   </span>
                 </div>
                 
-                {/* Action Buttons */}
                 <button className="w-full mb-2 px-4 py-3 bg-white border border-gray-200 text-black 
                                  font-medium transition-colors hover:bg-gray-50">
                   VIEW CART

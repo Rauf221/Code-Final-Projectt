@@ -1,87 +1,173 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Eye, EyeOff } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { setCookie } from 'nookies';
+import { Eye, EyeOff, AlertCircle } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { setCookie } from "nookies";
+import { useState, useEffect } from "react";
 
 const LoginPage = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+  const [touched, setTouched] = useState({
+    email: false,
+    password: false,
+  });
+  const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  // Validation rules
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) return "Email is required";
+    if (!emailRegex.test(email)) return "Please enter a valid email address";
+    return "";
   };
 
-  const handleSubmit = async (e) => {
+  const validatePassword = (password: string) => {
+    if (!password) return "Password is required";
+    if (password.length < 6) return "Password must be at least 6 characters";
+    if (!/[A-Z]/.test(password))
+      return "Password must contain at least one uppercase letter";
+    if (!/[a-z]/.test(password))
+      return "Password must contain at least one lowercase letter";
+    if (!/[0-9]/.test(password))
+      return "Password must contain at least one number";
+    return "";
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (submitError) setSubmitError("");
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
+
+    validateField(name, formData[name as keyof typeof formData]);
+  };
+
+  const validateField = (name: string, value: string) => {
+    let error = "";
+    if (name === "email") {
+      error = validateEmail(value);
+    } else if (name === "password") {
+      error = validatePassword(value);
+    }
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
+
+    return error;
+  };
+
+  const isFormValid = () => {
+    const emailError = validateEmail(formData.email);
+    const passwordError = validatePassword(formData.password);
+    return !emailError && !passwordError;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setSubmitError("");
+
+    const emailError = validateField("email", formData.email);
+    const passwordError = validateField("password", formData.password);
+
+    setTouched({
+      email: true,
+      password: true,
+    });
+
+    if (emailError || passwordError) {
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:2000/auth/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:2000/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), 
-        credentials: 'include', 
+        body: JSON.stringify(formData),
+        credentials: "include",
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
+        throw new Error(data.message || "Login failed");
       }
 
-    
-      const verifyResponse = await fetch('http://localhost:2000/users/checkauthentication', {
-        credentials: 'include',
-      });
+      const verifyResponse = await fetch(
+        "http://localhost:2000/users/checkauthentication",
+        {
+          credentials: "include",
+        }
+      );
 
       if (!verifyResponse.ok) {
-        throw new Error('Token verification failed');
+        throw new Error("Token verification failed");
       }
 
-   
-      setCookie(null, 'user', JSON.stringify({
-        _id: data._id,
-        username: data.username,
-        email: data.email,
-        isAdmin: data.isAdmin,
-      }), {
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 24 * 60 * 60 
-      });
+      setCookie(
+        null,
+        "user",
+        JSON.stringify({
+          _id: data._id,
+          username: data.username,
+          email: data.email,
+          isAdmin: data.isAdmin,
+        }),
+        {
+          path: "/",
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: 24 * 60 * 60,
+        }
+      );
 
-      
       if (data.isAdmin === true) {
-        router.push('/admin');
+        router.push("/admin");
       } else if (data.isAdmin === false) {
-        router.push('/home');
+        router.push("/home");
       }
-
-    } catch (err) {
-      setError(err.message || 'An error occurred during login');
-      
-      setCookie(null, 'user', '', { path: '/', maxAge: -1 });
+    } catch (err: any) {
+      setSubmitError(err.message || "An error occurred during login");
+      setCookie(null, "user", "", { path: "/", maxAge: -1 });
     } finally {
       setLoading(false);
     }
   };
+
+  const InputError = ({ message }: { message: string }) =>
+    message ? (
+      <div className="flex items-center gap-1 mt-1 text-red-500 text-sm">
+        <AlertCircle className="w-4 h-4" />
+        <span>{message}</span>
+      </div>
+    ) : null;
 
   return (
     <div className="bg-blue-900 absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-blue-600 leading-5 h-full w-full overflow-hidden">
@@ -90,8 +176,9 @@ const LoginPage = () => {
           <div className="self-start hidden lg:flex flex-col text-gray-300">
             <h1 className="my-3 font-semibold text-4xl">Welcome back</h1>
             <p className="pr-3 text-sm opacity-75">
-              Lorem ipsum is placeholder text commonly used in the graphic, print,
-              and publishing industries for previewing layouts and visual mockups
+              Lorem ipsum is placeholder text commonly used in the graphic,
+              print, and publishing industries for previewing layouts and visual
+              mockups
             </p>
           </div>
         </div>
@@ -101,54 +188,71 @@ const LoginPage = () => {
             <div className="mb-7">
               <h3 className="font-semibold text-2xl text-white">Sign In</h3>
               <p className="text-gray-400">
-                Don&apos;t have an account?{' '}
-                <Link href="/auth/register" className="text-sm text-blue-600 hover:text-blue-700">
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/auth/register"
+                  className="text-sm text-blue-600 hover:text-blue-700"
+                >
                   Sign Up
                 </Link>
               </p>
             </div>
 
-            {error && (
-              <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                {error}
+            {submitError && (
+              <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded flex items-center gap-2">
+                <AlertCircle className="w-5 h-5" />
+                {submitError}
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-            
               <div>
                 <input
-                  className="w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+                  className={`w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border rounded-lg focus:outline-none transition-colors duration-200 ${
+                    touched.email && errors.email
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-200 focus:border-purple-400"
+                  }`}
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                   placeholder="Email"
-                  required
                 />
+                <InputError message={touched.email ? errors.email : ""} />
               </div>
 
-             
-              <div className="relative">
-                <input
-                  className="w-full text-sm text-gray-800 px-4 py-3 rounded-lg bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
+              <div>
+                <div className="relative">
+                  <input
+                    className={`w-full text-sm text-gray-800 px-4 py-3 rounded-lg bg-gray-200 focus:bg-gray-100 border focus:outline-none transition-colors duration-200 ${
+                      touched.password && errors.password
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-gray-200 focus:border-purple-400"
+                    }`}
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    placeholder="Password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+                <InputError message={touched.password ? errors.password : ""} />
               </div>
 
-            
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <input
@@ -157,27 +261,34 @@ const LoginPage = () => {
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-300">
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-2 block text-sm text-gray-300"
+                  >
                     Remember me
                   </label>
                 </div>
-                <Link href="/auth/forgot-password" className="text-sm text-blue-500 hover:text-blue-400">
+                <Link
+                  href="/auth/forgot-password"
+                  className="text-sm text-blue-500 hover:text-blue-400"
+                >
                   Forgot password?
                 </Link>
               </div>
 
-           
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !isFormValid()}
                 className="w-full flex justify-center bg-blue-600 hover:bg-blue-700 text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Signing in...' : 'Sign in'}
+                {loading ? "Signing in..." : "Sign in"}
               </button>
 
               <div className="flex items-center justify-center space-x-2">
                 <span className="h-px w-16 bg-gray-300"></span>
-                <span className="text-gray-300 font-normal">or continue with</span>
+                <span className="text-gray-300 font-normal">
+                  or continue with
+                </span>
                 <span className="h-px w-16 bg-gray-300"></span>
               </div>
 

@@ -51,4 +51,17 @@ exports.deleteRecommendedProduct = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+}; 
+
+exports.getRecommendedProductBySlug = async (req, res) => {
+  try {
+    const recommendedProduct = await RecommendedProduct.findOne({ slug: req.params.slug }); 
+    if (!recommendedProduct) {
+      return res.status(404).json({ message: 'Recommended Product not found' });
+    }
+    res.status(200).json(recommendedProduct); 
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
+

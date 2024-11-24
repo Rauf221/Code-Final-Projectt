@@ -5,6 +5,7 @@ const {
   createRecommendedProduct,
   updateRecommendedProduct,
   deleteRecommendedProduct,
+  getRecommendedProductBySlug
 } = require('../Controllers/productsForRecommended');
 
 const router = express.Router();
@@ -12,6 +13,7 @@ const router = express.Router();
 router.get('/recommendedproducts', getAllRecommendedProducts);
 router.get('/recommendedproducts/:id', getRecommendedProductById);
 router.post('/recommendedproducts', createRecommendedProduct);
+router.get('/recommendedproducts/slug/:slug', getRecommendedProductBySlug);
 router.put('/recommendedproducts/:id', updateRecommendedProduct);
 router.delete('/recommendedproducts/:id', deleteRecommendedProduct);
 

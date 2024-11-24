@@ -69,9 +69,8 @@ const PostDetailClient: React.FC<PostDetailClientProps> = ({ post }) => {
 
   return (
       
-      <div className=" mx-auto px-4 py-10 rubik">
-          <div className="  flex flex-col justify-center text-gray-700">
-            {/* Image */}
+      <div className=" mx-auto px-4 py-10  rubik">
+          <div className="  flex flex-col justify-center bg-white text-gray-700">
             <img
               src={post.image}
               alt={post.title}
@@ -80,18 +79,15 @@ const PostDetailClient: React.FC<PostDetailClientProps> = ({ post }) => {
 
             <div className="container flex justify-center">
               <div className="w-[1100px] flex flex-col ">
-                {/* Category and Title */}
                 <h3 className="uppercase text-sm text-cyan-500 mb-2">
                   {post.category}
                 </h3>
                 <h1 className="text-3xl font-medium mb-4">{post.title}</h1>
 
-                {/* Meta Information */}
                 <div className="text-xs font-medium text-gray-500 mb-6">
                   <span className="mr-4">POST DATE: {post.date}</span>
                   <span>POST BY {post.author}</span>
                 </div>
-                {/* Description */}
                 <p className="text-lg leading-relaxed  w-[1100px] mt-10 text-[#777777]">
                   iPad Pro is the fastest device of its kind. It’s designed to
                   take full advantage of next‑level performance and custom
@@ -113,7 +109,6 @@ const PostDetailClient: React.FC<PostDetailClientProps> = ({ post }) => {
             </div>
           </div>
           <div className=" container flex justify-center  ">
-            {/* Inspirational Quote */}
             <div className="bg-[#F1F5F6] p-7 mt-20 rounded-2xl flex flex-col items-center  w-[600px] border ">
               <blockquote className="text-xl text-center text-[#777777] leading-normal font-medium">
                 “ We are content to rest in peace, when the whole universe is
@@ -143,7 +138,6 @@ const PostDetailClient: React.FC<PostDetailClientProps> = ({ post }) => {
           </div>
           <div className="container mx-auto px-4 py-8">
             <div className="max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {/* Left Image */}
               <div className="overflow-hidden rounded-lg shadow-md">
                 <img
                   src="https://cdn.shopify.com/s/files/1/0687/1177/6541/files/blog_1.jpg?v=1675850948"
@@ -151,7 +145,6 @@ const PostDetailClient: React.FC<PostDetailClientProps> = ({ post }) => {
                   className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
                 />
               </div>
-              {/* Right Image */}
               <div className="overflow-hidden rounded-lg shadow-md">
                 <img
                   src="https://cdn.shopify.com/s/files/1/0687/1177/6541/files/blog_2.jpg?v=1675850948"
@@ -192,7 +185,6 @@ const PostDetailClient: React.FC<PostDetailClientProps> = ({ post }) => {
           </div>
           <div className=" container flex justify-center ">
             <div className=" w-[1100px] flex justify-between mt-10 items-center py-4 border-b pb-8">
-              {/* Tags Section */}
               <div className="flex space-x-2">
                 <span className="px-3 py-2 hover:bg-[#16BCDC] hover:text-white border rounded-sm  tansition-colors duration-700 text-[#777777] text-sm">
                   airpods
@@ -208,7 +200,6 @@ const PostDetailClient: React.FC<PostDetailClientProps> = ({ post }) => {
                 </span>
               </div>
 
-              {/* Social Icons Section */}
               <div className="flex space-x-2">
                 <a href="#" className="bg-blue-700 h-10 w-10 flex items-center justify-center rounded-full text-white hover:opacity-75 ">
                   <FaLinkedinIn />
@@ -238,7 +229,6 @@ const PostDetailClient: React.FC<PostDetailClientProps> = ({ post }) => {
             </div>
           </div>
 
-      {/* Comment Form */}
       <div className="container mx-auto w-[1100px] py-8">
         <h2 className="text-xl font-bold mb-4">LEAVE A COMMENT</h2>
         <form className="space-y-6" onSubmit={handleSubmit}>

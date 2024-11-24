@@ -41,7 +41,6 @@ const renderStars = (rating: number) => {
   return (
     <div className="w-full max-w-full mx-auto  bg-white rounded-lg shadow-sm p-6 mb-4">
       <div className="flex gap-6">
-        {/* Left side - Product Image */}
         <div className="relative  group ">
         <div className="bg-white py-3 px-3  relative flex">
           {(product.discount ?? 0) > 0 && (
@@ -80,7 +79,6 @@ const renderStars = (rating: number) => {
                   </div>
 
 
-        {/* Right side - Product Info */}
         <div className="flex-1 flex flex-col justify-between rubik">
           <div>
             <h2 className="text-2xl font-medium text-blue-600 hover:text-red-600 transition-colors mb-3">

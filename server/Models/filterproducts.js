@@ -13,7 +13,7 @@ const filterProductsSchema = new mongoose.Schema({
     brand: { type: String, required: true },
     image: { type: String, required: true },
     hoverImage: { type: String, default: null },
-    size: { type: String, default: null },  // Optional field, used for products like iPads, phones, etc.
+    size: { type: String, default: null },  
     availability: { type: String, default: 'In Stock' },
     specialTag: { type: String, default: null },
     countdown: {

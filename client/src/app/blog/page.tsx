@@ -17,7 +17,6 @@ import {
 import { IoSearch } from "react-icons/io5";
 import Skeleton from "react-loading-skeleton";
 
-// Skeleton loader import
 
 interface Post {
   id: number;
@@ -40,7 +39,7 @@ const BlogLayout = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get("http://localhost:2000/api/posts/");
-        setPosts(response.data); // Store fetched posts
+        setPosts(response.data); 
         setLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -91,9 +90,7 @@ const BlogLayout = () => {
       <NavBar />
       <div className="py-10 flex rubik">
         <div className="container mx-auto flex gap-3">
-          {/* Sidebar */}
           <div className="flex flex-col w-[23%] pt-4 border-r pr-10 ">
-            {/* Search Section */}
             <div className="relative w-full">
               <input
                 type="text"
@@ -105,7 +102,6 @@ const BlogLayout = () => {
                 size={20}
               />
             </div>
-            {/* Social Icons */}
             <div className="bg-white w-full p-4">
               <h3 className="font-medium text-xl mb-1">Social</h3>
               <div className="h-[2px] w-full bg-gray-300 mb-3">
@@ -132,7 +128,6 @@ const BlogLayout = () => {
                 </div>
               </div>
             </div>
-            {/* Categories */}
             <div className="bg-white p-4 rounded-lg mt-4">
               <h3 className="font-medium text-xl mb-1">Categories</h3>
               <div className="h-[2px] w-full bg-gray-300 mb-5">
@@ -157,7 +152,6 @@ const BlogLayout = () => {
                 </li>
               </ul>
             </div>
-            {/* Recent Posts */}
             <div className="bg-white p-4 rounded-lg mt-4">
               <h3 className="font-medium text-xl mb-1">Recent Posts</h3>
               <div className="h-[2px] w-full bg-gray-300 mb-5">
@@ -238,7 +232,6 @@ const BlogLayout = () => {
             </div>
           </div>
 
-          {/* Blog Posts */}
           <div className="w-[80%]">
             <div className="grid grid-cols-1  pl-14 p-6 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {loading

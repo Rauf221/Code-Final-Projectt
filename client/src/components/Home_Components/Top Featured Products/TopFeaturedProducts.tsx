@@ -177,13 +177,12 @@ const FeaturedProducts = () => {
 
   return (
     <div className="max-w-[1500px] mx-auto px-4 py-8 rubik ">
-      <h2 className="text-2xl font-bold mb-6 relative inline-block">
+      <h2 className="text-2xl font-medium mb-6 relative inline-block">
         Top Featured Products
-        <div className="absolute -bottom-1 left-0 w-full h-[2px] bg-blue-500"></div>
+        <div className="absolute -bottom-1 left-0 w-full h-[2px] bg-[#16BCDC]"></div>
       </h2>
 
       <div className="flex  w-full gap-5 group/buttons ">
-        {/* Main Featured Product Slider */}
         <div className="w-[1300px] h-[280px] bg-white rounded-lg  px-6  relative overflow-hidden">
           <div className="absolute top-1/2 -translate-y-1/2 left-2 z-10">
             <button
@@ -292,7 +291,6 @@ const FeaturedProducts = () => {
           </div>
         </div>
 
-        {/* Other Products */}
         <div className="flex  flex-wrap gap-3">
           {otherProducts.map((product) => (
             <div

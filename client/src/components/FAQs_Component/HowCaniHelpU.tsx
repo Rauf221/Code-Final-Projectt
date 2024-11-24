@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-// pages/index.js
 export default function FAQS() {
   const items = [
     {
@@ -130,9 +129,7 @@ export default function FAQS() {
   return (
     <>
       <div className="flex flex-col items-center space-y-2  rubik pb-10">
-        {/* Title */}
         <h1 className="text-3xl font-semibold">FAQs</h1>
-        {/* Breadcrumb */}
         <nav className="text-sm text-gray-600">
           <a href="/home" className="hover:underline cursor-pointer">
             Home
@@ -143,7 +140,6 @@ export default function FAQS() {
       <div className="flex justify-center relative  ">
         <div className="container mx-auto max-w-[1500px] px-4">
           <div className="grid grid-cols-4 gap-8">
-            {/* Left Sidebar - Sticky */}
             <div className="col-span-1 sticky top-[40px] h-screen self-start overflow-y-auto">
               <div className="space-y-1 border rounded-2xl px-6 py-2 font-semibold">
                 <button className="w-full py-2 border-b rounded text-left">
@@ -161,7 +157,6 @@ export default function FAQS() {
               </div>
             </div>
 
-            {/* Main Content */}
             <div className="pl-10 col-span-3  border-l">
               <div>
                 <h2 className="text-2xl font-bold mb-4">

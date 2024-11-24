@@ -16,11 +16,9 @@ export const DarkModeProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    // Check initial mode
     const savedMode = localStorage.getItem('darkMode');
     const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    // Priority: saved mode > system preference
     const initialMode = savedMode 
       ? JSON.parse(savedMode) 
       : prefersDarkMode;

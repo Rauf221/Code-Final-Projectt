@@ -29,7 +29,6 @@ const OfficeFeatures = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5">
           {features.map((feature) => (
             <div key={feature.id} className="flex flex-col group">
-              {/* Image Container */}
               <div className="relative   object-cover  overflow-hidden rounded-lg">
                 <img
                   src={feature.image}
@@ -39,7 +38,6 @@ const OfficeFeatures = () => {
                 />
               </div>
               
-              {/* Content */}
               <div className="flex items-start mt-5 w-full flex-col">
                 <span className="text-md font-bold flex gap-1 ">
                   {feature.id}.

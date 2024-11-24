@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose');
 
-// Define the Comment schema
 const CommentSchema = new mongoose.Schema(
   {
     name: {
@@ -19,7 +18,7 @@ const CommentSchema = new mongoose.Schema(
     },
     postSlug: {
       type: String,
-      required: true, // Connects the comment to a specific post
+      required: true, 
     },
     createdAt: {
       type: Date,

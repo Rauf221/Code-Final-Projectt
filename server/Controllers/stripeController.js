@@ -16,12 +16,11 @@ exports.createCheckoutSession = async (req, res) => {
   try {
     const { quantity, productId, price, name } = req.body;
 
-    // Validate required fields
     if (!quantity || !price || !name) {
       return res.status(400).json({ error: 'Missing required fields in request body' });
     }
 
-    // Create Stripe checkout session
+    
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
@@ -32,7 +31,7 @@ exports.createCheckoutSession = async (req, res) => {
             product_data: {
               name: name,
             },
-            unit_amount: Math.round(price * 100), // Convert price to cents
+            unit_amount: Math.round(price * 100), 
           },
           quantity: quantity,
         },

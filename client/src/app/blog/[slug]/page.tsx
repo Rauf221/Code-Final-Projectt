@@ -40,7 +40,9 @@ const PostDetail = async ({ params }: PostDetailProps) => {
       <>
         <Header />
         <NavBar />
+        <div className="bg-[#F4F5F7]">
         <PostDetailClient post={post} />
+        </div>
         <Footer />
       </>
     );

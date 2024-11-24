@@ -25,18 +25,16 @@ const colorOptions = [
 const ColorFilter = ({ onColorChange }: { onColorChange: (colors: string[]) => void }) => {
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
 
-  // Use useCallback to ensure we're not calling onColorChange during render
   const toggleColor = useCallback((colorId: string) => {
     setSelectedColors((prevSelectedColors) => {
       const newColors = prevSelectedColors.includes(colorId)
         ? prevSelectedColors.filter(c => c !== colorId)
         : [...prevSelectedColors, colorId];
 
-      // Update parent component outside the render cycle
       onColorChange(newColors);
       return newColors;
     });
-  }, [onColorChange]); // Depend on onColorChange, which is passed as prop
+  }, [onColorChange]);
 
   return (
     <div className="rubik">
@@ -46,7 +44,7 @@ const ColorFilter = ({ onColorChange }: { onColorChange: (colors: string[]) => v
           <span className="text-md font-medium">COLOR</span>
         </div>
         <button
-          onClick={() => { setSelectedColors([]); onColorChange([]); }} // Reset both local state and parent state
+          onClick={() => { setSelectedColors([]); onColorChange([]); }} 
           className="text-xs font-medium text-gray-500 hover:text-gray-700"
         >
           RESET
@@ -56,7 +54,7 @@ const ColorFilter = ({ onColorChange }: { onColorChange: (colors: string[]) => v
         {colorOptions.map((option) => (
           <button
             key={option.id}
-            onClick={() => toggleColor(option.id)} // Use the toggleColor function
+            onClick={() => toggleColor(option.id)}
             className={`w-6 h-6 rounded-full border transition-transform ${selectedColors.includes(option.id) ? 'border-blue-500 scale-110' : 'border-gray-200 hover:scale-110'}`}
             style={{ backgroundColor: option.color, borderWidth: option.id === 'white' ? '1px' : '2px' }}
           />

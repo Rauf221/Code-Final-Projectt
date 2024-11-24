@@ -1,6 +1,5 @@
 const Post = require('../Models/blog');
 
-// GET all posts
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.find();
@@ -10,7 +9,6 @@ const getPosts = async (req, res) => {
   }
 };
 
-// GET a single post by slug
 const getPostBySlug = async (req, res) => {
   try {
     const post = await Post.findOne({ slug: req.params.slug });
@@ -21,7 +19,6 @@ const getPostBySlug = async (req, res) => {
   }
 };
 
-// POST create a new post
 const createPost = async (req, res) => {
   const { id, title, description, category, author, date, slug, image } = req.body;
 
@@ -48,7 +45,6 @@ const createPost = async (req, res) => {
   }
 };
 
-// PUT update a post
 const updatePost = async (req, res) => {
   try {
     const updatedPost = await Post.findByIdAndUpdate(
@@ -65,7 +61,6 @@ const updatePost = async (req, res) => {
   }
 };
 
-// DELETE a post
 const deletePost = async (req, res) => {
   try {
     const deletedPost = await Post.findByIdAndDelete(req.params.id);

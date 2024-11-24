@@ -16,7 +16,7 @@
 }
 
 @layer base {
-    /* Custom scrollbar styles */
+   
     ::-webkit-scrollbar {
         width: 4px;
     }
@@ -44,4 +44,39 @@
   
   .animate-marquee {
     animation: marquee 20s linear infinite;
+  } 
+
+  @keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.rotate-gradient {
+    animation: spin 4s linear infinite;
+    animation-timing-function: linear; 
+} 
+
+@keyframes shimmer {
+    0% {
+      transform: translateX(-3%);
+    }
+    10% {
+      transform: translateX(0%);
+    }
+    20% {
+      transform: translateX(-3%);
+    }
+    30% {
+      transform: translateX(0%);
+    }
+    40%, 100% { 
+      transform: translateX(-3%);
+    }
   }
+  .shimmer-effect {
+    animation: shimmer 2s ease-in-out  infinite;
+  }
+  

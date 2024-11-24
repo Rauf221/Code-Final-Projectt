@@ -78,7 +78,6 @@ const PopularCategories = () => {
             className={`${category.bgColor} rounded-3xl overflow-hidden  group relative`}
           >
             <div className="aspect-[6/3] relative ">
-              {/* Placeholder image using the API */}
               <img 
                 src={category.image}
                 alt={category.title}

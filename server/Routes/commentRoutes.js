@@ -1,20 +1,18 @@
-// routes/commentRoutes.js
 
 const express = require('express');
 const router = express.Router();
 const { 
+  deleteComment, 
   addComment,  
   getCommentsByPostSlug, 
-  getAllComments // Add the new controller function
+  getAllComments 
 } = require('../Controllers/commentController');
 
-// Route to add a comment
 router.post('/comments', addComment);
 
-// Route to get comments by post slug
 router.get('/comments/:slug', getCommentsByPostSlug);
 
-// Route to get all comments
-router.get('/comments', getAllComments); // Add this route
+router.get('/comments', getAllComments); 
+router.delete('/comments/:id', deleteComment); 
 
 module.exports = router;

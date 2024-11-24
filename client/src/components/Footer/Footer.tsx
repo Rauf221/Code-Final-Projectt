@@ -18,11 +18,8 @@ import { TbTruckDelivery } from "react-icons/tb";
 const Footer = () => {
   return (
     <footer className="bg-[#1F2024] text-white py-10 rubik">
-      {/* Container */}
       <div className="container mx-auto max-w-[1500px] px-6 lg:px-4">
-        {/* Top Section */}
         <div className="flex flex-wrap justify-around gap-8 pb-8 border-b border-gray-700">
-          {/* Free Delivery */}
           <div className="flex items-center space-x-3 justify-center">
             <TbTruckDelivery className="text-[#16BCDC] hover:animate-bounce ease-in-out" size={40} />
             <div>
@@ -31,7 +28,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Safe Payment */}
           <div className="flex items-center space-x-3 justify-center">
             <FaRegCreditCard className="text-[#16BCDC] hover:animate-bounce ease-in-out" size={40} />
             <div>
@@ -40,7 +36,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* 24/7 Help Center */}
           <div className="flex items-center space-x-3 justify-center">
             <BiConversation className="text-[#16BCDC] hover:animate-bounce ease-in-out" size={40} />
             <div>
@@ -49,7 +44,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Shop With Confidence */}
           <div className="flex items-center space-x-3 justify-center">
             <FaHandHoldingDollar className="text-[#16BCDC] hover:animate-bounce ease-in-out" size={40} />
             <div>
@@ -59,9 +53,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Middle Section */}
         <div className="flex flex-wrap justify-between py-8 mb-20">
-          {/* Download App */}
           <div className="w-full lg:w-[350px] mb-8 lg:mb-0">
             <h4 className="font-medium text-base mb-3">Download App</h4>
             <p className="text-sm text-gray-400 mb-4">
@@ -85,7 +77,6 @@ const Footer = () => {
               </button>
             </div>
 
-            {/* Social Icons */}
             <div className="flex space-x-3 mt-10">
               <div className="text-white rounded-sm bg-cyan-500 h-8 w-8 text-sm text-center justify-center flex items-center">
                 <FaTwitter size={20} />
@@ -108,7 +99,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* My Account / Customer Service / Help Section */}
           <div className="flex-1 flex justify-around lg:space-x-10 space-y-8 lg:space-y-0 lg:flex-row flex-col">
             <div>
               <h4 className="font-medium text-base mb-3">My Account</h4>
@@ -147,7 +137,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Newsletter */}
           <div className="w-full lg:w-[350px]">
             <h4 className="font-medium text-base mb-3">Sign Up To Newsletter</h4>
             <p className="text-sm text-gray-400 mb-4">
@@ -171,7 +160,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Section */}
         <div className="flex flex-col lg:flex-col justify-center items-center py-4 pt-16 border-t border-gray-700">
           <ul className="flex flex-wrap justify-center space-x-4 text-sm text-gray-400 mb-4">
             <li>ABOUT US</li>
@@ -190,7 +178,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="text-center text-gray-500 mt-4 text-sm">
           Copyright <span className="text-[#16BCDC]">© Morata</span>. All Rights
           Reserved. Powered by <span className="text-[#16BCDC]">Alothemes</span>.

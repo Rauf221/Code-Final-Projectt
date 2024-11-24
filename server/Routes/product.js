@@ -6,7 +6,7 @@ router.get('/products', getAllProducts);
 
 router.get('/products/:id', getProductById);
 
-router.get('/products/slug/:slug', getProductBySlug); // Slug ile ürün bulma rotası
+router.get('/products/slug/:slug', getProductBySlug);
 
 router.post('/products', createProduct);
 

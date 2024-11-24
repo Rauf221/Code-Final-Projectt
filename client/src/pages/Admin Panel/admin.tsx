@@ -35,22 +35,19 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
   const { darkMode, toggleDarkMode } = useDarkMode();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [expandedMenu, setExpandedMenu] = useState<string | null>(null); // Track expanded menus
+  const [expandedMenu, setExpandedMenu] = useState<string | null>(null); 
 
   useEffect(() => {
     const cookies = parseCookies();
     const userCookie = cookies.user;
     if (userCookie) {
       const userData: User = JSON.parse(userCookie);
-      // Ensure the user is an admin
       if (userData.isAdmin) {
         setUser(userData);
       } else {
-        // Redirect non-admin users
         router.push("/home");
       }
     } else {
-      // Redirect if no user is logged in
       router.push("/auth/login");
     }
     setIsLoading(false);
@@ -66,11 +63,8 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
       });
 
       if (response.ok) {
-        // Destroy the user cookie
         destroyCookie(null, "user");
-        // Clear user state
         setUser(null);
-        // Redirect to login page
         router.push("/auth/login");
       } else {
         const errorData = await response.json();
@@ -96,7 +90,14 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
     },
     { icon: ShoppingCart, label: "Orders", href: "/admin/orders" },
     { icon: Users, label: "Customers", href: "/admin/customers" },
-    { icon: GitBranch, label: "Comments", href: "/admin/comments" },
+    { icon: GitBranch,
+     label: "Comments",
+     href: "/admin/comments",
+     subItems: [
+      { label: "Blog Comments", href: "/admin/comments" },
+      { label: "Product Reviews", href: "/admin/product-reviews" },
+    ],
+     },
     { icon: FileText, label: "Reports", href: "/admin/reports" },
     { icon: Settings, label: "Settings", href: "/admin/settings" },
   ];
@@ -104,7 +105,6 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        {/* Spinner */}
         <div className="w-8 h-8 border-4 border-black  border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -120,7 +120,6 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
         darkMode ? "dark bg-gray-900" : "bg-gray-50"
       } transition-colors duration-300`}
     >
-      {/* Sidebar */}
       <aside
         className={`
           fixed top-0 left-0 z-40 h-screen transition-transform duration-300 ease-in-out
@@ -130,7 +129,6 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
           border-r w-64 p-4
         `}
       >
-        {/* Logo */}
         <div className="flex items-center justify-between mb-8 px-2">
           <span
             className={`text-2xl font-bold ${
@@ -151,7 +149,6 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
           </button>
         </div>
 
-        {/* Navigation */}
         <nav className="space-y-1">
           {menuItems.map((item) => (
             <div key={item.label}>
@@ -180,7 +177,6 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
                   />
                 )}
               </a>
-              {/* Submenu */}
               {item.subItems && expandedMenu === item.label && (
                 <div className="ml-6 space-y-1 font-medium">
                   {item.subItems.map((subItem) => (
@@ -203,14 +199,12 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
         </nav>
       </aside>
 
-      {/* Main Content */}
       <div
         className={`
           ${sidebarOpen ? "md:ml-64" : ""}
           flex flex-col min-h-screen transition-all duration-300
         `}
       >
-        {/* Header */}
         <header
           className={`
             ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"} 
@@ -233,7 +227,6 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
             </button>
 
             <div className="flex items-center gap-4 ml-auto">
-              {/* Notifications */}
               <button
                 className={`
                   p-2 rounded-lg transition-colors duration-200
@@ -247,7 +240,7 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
                 <Bell size={20} />
               </button>
 
-              {/* User Menu */}
+            
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -272,7 +265,6 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
                   <ChevronDown size={16} />
                 </button>
 
-                {/* Dropdown Menu */}
                 {dropdownOpen && (
                   <div
                     className={`
@@ -329,7 +321,7 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
           </div>
         </header>
 
-        {/* Main Content Area */}
+       
         <main
           className={`
             flex-1 p-6 mt-16

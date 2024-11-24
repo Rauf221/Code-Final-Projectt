@@ -29,22 +29,18 @@ const NavBar = () => {
     setMegaMenuOpen(!isMegaMenuOpen);
   };
 
-  // Handle scroll behavior
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
 
-      // Set sticky state based on 150px threshold
       setIsSticky(currentScrollPos > 150);
 
-      // If less than 170px, keep navbar in original position
       if (currentScrollPos < 170) {
         setIsVisible(true);
         setPrevScrollPos(currentScrollPos);
         return;
       }
 
-      // Handle visibility for scroll direction when beyond threshold
       const isScrollingUp = prevScrollPos > currentScrollPos;
       setIsVisible(isScrollingUp);
       setPrevScrollPos(currentScrollPos);
@@ -54,7 +50,6 @@ const NavBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
 
-  // Handle clicks outside MegaMenu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -93,7 +88,6 @@ const NavBar = () => {
           `}
         >
           <div className="flex justify-start gap-[20px] items-center">
-            {/* Left Menu */}
             <div className="flex items-center group space-x-1 text-sm font-bold relative">
               <button
                 className="flex items-center text-start py-4 w-[300px] justify-start space-x-2"
@@ -109,7 +103,6 @@ const NavBar = () => {
               <span className="font-thin">|</span>
             </div>
 
-            {/* Center Links */}
             <ul className="flex items-center space-x-4 relative">
               <li className="group">
                 <button className="flex items-center space-x-1">
@@ -118,7 +111,6 @@ const NavBar = () => {
                   </a>
                   <MdOutlineKeyboardArrowDown />
                 </button>
-                {/* Dropdown */}
                 <ul className="absolute -left-[20px] invisible text-sm w-[500px] pt-5 group-hover:visible text-black py-2 transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-4">
                   <div className="bg-white w-[500px] flex-wrap flex">
                     {Array.from({ length: 28 }, (_, index) => (
@@ -141,10 +133,8 @@ const NavBar = () => {
                   <MdOutlineKeyboardArrowDown />
                 </button>
 
-                {/* Dropdown on hover */}
                 <ul className="absolute -left-[200px] invisible text-sm w-[1220px] group-hover:visible flex flex-wrap pt-5 text-black py-2 transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-4">
                   <div className="flex items-start justify-between space-x-8 w-full p-5 bg-white">
-                    {/* First Category: Shop Layout */}
                     <div className="group relative">
                       <span className="flex items-center px-3 hover:text-cyan-400 transition-colors duration-300 space-x-1 text-lg font-bold">
                         Shop Layout
@@ -170,7 +160,6 @@ const NavBar = () => {
                       </ul>
                     </div>
 
-                    {/* Second Category: Product Type */}
                     <div className="group relative">
                       <span className="flex items-center px-3 hover:text-cyan-400 transition-colors duration-300 space-x-1 text-lg font-bold">
                         Product Type
@@ -196,7 +185,6 @@ const NavBar = () => {
                       </ul>
                     </div>
 
-                    {/* Third Category: Collection Layout */}
                     <div className="group relative">
                       <span className="flex items-center hover:text-cyan-400 transition-colors duration-300 px-3 space-x-1 text-lg font-bold">
                         Collection Layout
@@ -220,7 +208,6 @@ const NavBar = () => {
                       </ul>
                     </div>
 
-                    {/* Image and Text */}
                     <div className="flex-shrink-0 relative">
                       <img
                         src="https://demo-morata.myshopify.com/cdn/shop/products/products_4_7.jpg?v=1697644644&width=3840"
@@ -245,7 +232,6 @@ const NavBar = () => {
 
                 <ul className="absolute -left-[200px] invisible text-sm w-[1220px] group-hover:visible flex flex-wrap pt-5 text-black py-2 transition-all duration-300 ease-in-out opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-4">
                   <div className="flex items-start justify-between gap- space-x-8 w-full p-5 bg-white">
-                    {/* First Category */}
                     <div className="group relative">
                       <ul className="absolute top-full left-0 text-sm w-[200px] bg-white text-black py-2">
                         {[
@@ -268,7 +254,6 @@ const NavBar = () => {
                       </ul>
                     </div>
 
-                    {/* Third Category */}
                     <div className="group relative">
                       <ul className="absolute top-full left-0 text-sm w-[200px] bg-white text-black py-2">
                         {[
@@ -289,7 +274,6 @@ const NavBar = () => {
                       </ul>
                     </div>
 
-                    {/* Image and Text */}
                     <div className="flex gap-5">
                       <div className="flex-shrink-0 relative">
                         <img
@@ -374,7 +358,6 @@ const NavBar = () => {
               </li>
             </ul>
 
-            {/* Right Section */}
             <div className="flex items-center justify-center pl-[410px]">
               <span className="text-cyan-400 text-2xl">
                 <PiSealPercentFill />
@@ -387,13 +370,11 @@ const NavBar = () => {
         </nav>
         {isMegaMenuOpen && (
           <>
-            {/* Overlay */}
             <div
               className="fixed inset-0 bg-black opacity-40 z-[40] h-screen"
               onClick={() => setMegaMenuOpen(false)}
             />
 
-            {/* MegaMenu */}
             <div
               ref={megaMenuRef}
               className={`absolute w-full px-2 z-50 transition-transform duration-500

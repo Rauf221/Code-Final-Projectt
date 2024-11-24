@@ -37,11 +37,9 @@ export default function ProductManagementTable() {
     rating: 0
   });
 
-   // Add this effect to sync dark mode state across the app
 
 
 
-  // Fetch Products
   const fetchProducts = async () => {
     try {
       const response = await fetch('http://localhost:2000/api/products');
@@ -52,7 +50,6 @@ export default function ProductManagementTable() {
     }
   };
 
-  // Delete Product
   const handleDelete = async (_id: string) => {
     try {
       const response = await fetch(`http://localhost:2000/api/products/${_id}`, {
@@ -68,7 +65,6 @@ export default function ProductManagementTable() {
     }
   };
 
-  // Create Product
   const handleCreate = async () => {
     try {
       const response = await fetch('http://localhost:2000/api/products', {
@@ -89,7 +85,6 @@ export default function ProductManagementTable() {
     }
   };
 
-  // Update Product
   const handleUpdate = async () => {
     try {
       if (!selectedProduct) {
@@ -213,7 +208,6 @@ export default function ProductManagementTable() {
         </table>
       </div>
 
-      {/* Create Modal */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className={`
@@ -279,7 +273,6 @@ export default function ProductManagementTable() {
         </div>
       )}
 
-      {/* Edit Modal */}
       {isEditModalOpen && selectedProduct && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className={`

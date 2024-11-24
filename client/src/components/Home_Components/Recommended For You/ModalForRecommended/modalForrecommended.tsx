@@ -47,7 +47,6 @@ const RecommendedProductDetailModal: React.FC<ProductDetailModalProps> = ({ prod
     );
   };
 
-  // Rest of your fetch and handlers remain the same
   useEffect(() => {
     const fetchProductDetails = async () => {
       if (!productId || !isOpen) return;
@@ -125,7 +124,6 @@ const RecommendedProductDetailModal: React.FC<ProductDetailModalProps> = ({ prod
         
         {product && !loading && !error && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
-            {/* Left side - Simple Manual Slider */}
             <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
               <img
                 src={images[currentImageIndex]}
@@ -133,7 +131,6 @@ const RecommendedProductDetailModal: React.FC<ProductDetailModalProps> = ({ prod
                 className="w-full h-full object-cover"
               />
               
-              {/* Navigation Buttons */}
               <button
                 onClick={prevSlide}
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition-colors"
@@ -148,7 +145,6 @@ const RecommendedProductDetailModal: React.FC<ProductDetailModalProps> = ({ prod
                 <ChevronRight className="w-6 h-6" />
               </button>
 
-              {/* Dots Indicator */}
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                 {images.map((_, index) => (
                   <button
@@ -162,9 +158,7 @@ const RecommendedProductDetailModal: React.FC<ProductDetailModalProps> = ({ prod
               </div>
             </div>
 
-            {/* Right side content remains the same */}
             <div className="flex flex-col">
-              {/* ... rest of your      {/* Right side - Product Details */}
             <div className="flex flex-col">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">{product.title || "Apple iPad Pro M1 11-inch 2021 Wi-Fi 128GB"}</h2>
               

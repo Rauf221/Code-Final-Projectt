@@ -35,7 +35,7 @@ const CustomNextArrow = (props: any) => {
   return (
     <button
       className={`${className} custom-arrow right-arrow bg-black p-2 rounded-full text-white z-10 `}
-      style={{ ...style, display: "block", right: "20px" }} // Adjust position here
+      style={{ ...style, display: "block", right: "20px" }} 
       onClick={onClick}
     >
      <IoIosArrowForward />
@@ -46,7 +46,7 @@ const CustomSlider: React.FC = () => {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    setAnimate(true); // Trigger animation when component mounts
+    setAnimate(true); 
   }, []);
 
   const sliderContent: Slide[] = [
@@ -54,19 +54,19 @@ const CustomSlider: React.FC = () => {
       title: "Gaming Headset Brilliant Lighting Effect",
       subtitle: "Wireless Connection With TV, Computer, Laptop...",
       image:
-        "https://demo-morata.myshopify.com/cdn/shop/files/banner_1_3.png?v=1697475451&width=3840", // replace with your image path
+        "https://demo-morata.myshopify.com/cdn/shop/files/banner_1_3.png?v=1697475451&width=3840", 
     },
     {
       title: "Canyon Star Raider",
       subtitle: "Headphone & Audio",
       image:
-        "https://demo-morata.myshopify.com/cdn/shop/files/banner_1_1.png?v=1697475450&width=3840", // replace with your image path
+        "https://demo-morata.myshopify.com/cdn/shop/files/banner_1_1.png?v=1697475450&width=3840", 
     },
     {
       title: "Phone Galaxy S20",
       subtitle: "Cellphone & Tablets",
       image:
-        "https://demo-morata.myshopify.com/cdn/shop/files/banner_1_3.png?v=1697475451&width=3840", // replace with your image path
+        "https://demo-morata.myshopify.com/cdn/shop/files/banner_1_3.png?v=1697475451&width=3840", 
     },
   ];
 
@@ -75,25 +75,25 @@ const CustomSlider: React.FC = () => {
       title: "Canyon Star Raider",
       subtitle: "Headphone & Audio",
       image:
-        "https://demo-morata.myshopify.com/cdn/shop/files/1_1.png?v=1697473091&width=3840", // replace with your image path
+        "https://demo-morata.myshopify.com/cdn/shop/files/1_1.png?v=1697473091&width=3840", 
     },
     {
       title: "Phone Galaxy S20",
       subtitle: "Cellphone & Tablets",
       image:
-        "https://demo-morata.myshopify.com/cdn/shop/files/1_2.png?v=1697474702&width=3840", // replace with your image path
+        "https://demo-morata.myshopify.com/cdn/shop/files/1_2.png?v=1697474702&width=3840", 
     },
     {
       title: "Galaxy Buds Plus",
       subtitle: "Wireless Earbuds",
       image:
-        "https://demo-morata.myshopify.com/cdn/shop/files/1_3.png?v=1697474702&width=3840", // replace with your image path
+        "https://demo-morata.myshopify.com/cdn/shop/files/1_3.png?v=1697474702&width=3840", 
     },
     {
       title: "Chair Swoon Lounge",
       subtitle: "Decor & Furniture",
       image:
-        "https://demo-morata.myshopify.com/cdn/shop/files/1_4.png?v=1697474702&width=3840", // replace with your image path
+        "https://demo-morata.myshopify.com/cdn/shop/files/1_4.png?v=1697474702&width=3840", 
     },
   ];
 
@@ -106,8 +106,8 @@ const CustomSlider: React.FC = () => {
   slidesToScroll: 1,
   autoplaySpeed: 3000,
   fade: true,
-  nextArrow: <CustomNextArrow />, // Custom next arrow
-  prevArrow: <CustomPrevArrow />, // Custom prev arrow
+  nextArrow: <CustomNextArrow />, 
+  prevArrow: <CustomPrevArrow />, 
   };
 
   return (
@@ -125,7 +125,6 @@ const CustomSlider: React.FC = () => {
                   alt={slide.title}
                   className="w-full h-[100%] object-cover rounded-3xl"
                 />
-                {/* Overlay Text */}
                 <div
                   className={`absolute top-0 left-0 w-full h-full flex flex-col justify-center items-start p-10 text-white bg-gradient-to-t to-transparent transition-all duration-500 ${
                     animate ? "animate-slide-down" : "opacity-0"
@@ -143,7 +142,6 @@ const CustomSlider: React.FC = () => {
         </div>
       </div>
 
-      {/* Cards Section */}
       <div className=" md:w-[40%] grid grid-cols-2 gap-6">
         {cards.map((card, index) => (
           <div
@@ -168,7 +166,6 @@ const CustomSlider: React.FC = () => {
         ))}
       </div>
 
-      {/* Tailwind Custom Animation */}
       <style jsx>{`
         @keyframes slide-down {
           0% {

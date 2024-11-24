@@ -109,7 +109,6 @@ const Header = () => {
 
   return (
     <header className="bg-[#263c97] text-white rubik relative">
-      {/* Top Bar */}
       <div className="flex justify-between items-center px-4 py-2 text-sm">
         <div className="flex items-center space-x-2">
           <span className="flex">
@@ -131,9 +130,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Main Header */}
       <div className="flex justify-between items-center px-4 py-5 border-t-[#354bba] border-t border-b border-b-[#354bba]">
-        {/* Logo */}
         <div className="w-[300px]">
           <img
             className="w-36 mr-20"
@@ -142,7 +139,6 @@ const Header = () => {
           />
         </div>
 
-        {/* Search Bar */}
         <div className="flex items-center w-[700px] rounded-sm overflow-hidden border bg-white p-1">
           <select className="bg-white text-black text-sm px-3 py-3.5 overflow-hidden outline-none">
             {categories.map((category, index) => (
@@ -162,9 +158,7 @@ const Header = () => {
           </button>
         </div>
 
-   {/* User Actions */}
         <div className="flex items-center space-x-8">
-          {/* User Account */}
           <div className="relative" ref={dropdownRef}>
             {isLoading ? (
               <div className="text-gray-400">Loading...</div>
@@ -177,7 +171,6 @@ const Header = () => {
                   </span>
                   <span className="ml-1 font-bold">{user.username}</span>
                 </div>
-                {/* Dropdown menu */}
                 <div className="absolute hidden group-hover:block top-full right-0 w-48 bg-white rounded-md shadow-lg py-1 text-black z-[100]">
                   {user.isAdmin && (
                     <button className="block w-full px-4 py-2 text-sm hover:bg-gray-100" onClick={() => router.push('/admin')}>
@@ -201,7 +194,6 @@ const Header = () => {
           </div>
 
 
-          {/* Wishlist */}
           <div className="flex items-center relative">
             <FiHeart className="text-4xl" />
             <div className="flex flex-col text-xs">
@@ -213,7 +205,6 @@ const Header = () => {
             </span>
           </div>
 
-          {/* Shopping Cart */}
          
           
         </div>

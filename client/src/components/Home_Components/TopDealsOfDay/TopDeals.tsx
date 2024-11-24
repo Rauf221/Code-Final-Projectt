@@ -108,7 +108,7 @@ const TopDealsOfTheDay = () => {
       <div className="flex justify-between items-center mb-8">
         <div className=''>
           <h2 className="text-2xl font-semibold text-gray-900">Top Deals Of The Day</h2>
-          <div className=" h-[2px] bg-blue-600 mt-2"></div>
+          <div className=" h-[2px] bg-[#16BCDC] mt-2"></div>
         </div>
         
         <div className="flex items-center">

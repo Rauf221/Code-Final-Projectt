@@ -5,7 +5,6 @@ import Image from 'next/image';
 const HeroSection = () => {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
       <nav className="py-2 flex items-center justify-between border-b bg-[#F2F2F6]">
         <div className="flex items-center space-x-8">
           <div className="flex  text-gray-600">
@@ -20,7 +19,6 @@ const HeroSection = () => {
         </div>
       </nav>
 
-      {/* Hero Content */}
       <div className="max-w-4xl mx-auto px-6 py-16 text-center rubik">
         <p className="text-[#16BCDC] font-medium mb-1">
           WELCOME TO UMINEX
@@ -39,7 +37,6 @@ const HeroSection = () => {
             alt="Two professional women collaborating"
             className="object-cover hover:scale-105  rounded-lg transition-transform duration-500"
           />
-          {/* Overlay */}
           
         </div>
     </div>

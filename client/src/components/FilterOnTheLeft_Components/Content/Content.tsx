@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ContentProps {
-  filters: any; // Replace 'any' with the appropriate type if known
+  filters: any; 
   slideOpen: boolean;
   onToggle: () => void;
   children: React.ReactNode;
@@ -14,10 +14,8 @@ export const Content: React.FC<ContentProps> = ({ filters,  children }) => {
        
       `}
     >
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Filtration Page</h1>
-      </div>
-      <div>
+    
+      <div className='min-h-screen '>
         
         {children}
       </div>

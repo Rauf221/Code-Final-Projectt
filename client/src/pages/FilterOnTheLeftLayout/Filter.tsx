@@ -13,11 +13,11 @@ export default function FiltrationPage() {
     <>
     <Header/>
     <NavBar/>
-    <div className='h-[6000px] bg-[#F6F7F9]'>
+    <div className='min-h-screen bg-[#F6F7F9]'>
     <FilterationPage>
-      <div className='h-[6000px] '>
+      <div className='min-h-screen '>
         <h2 className="text-xl font-bold mb-4">Filtered Products</h2>
-        <ProductList filters={{ /* provide the necessary filters here */ }} />
+        <ProductList filters={{ }} />
         <p>This is the content for the filtration page.</p>
       </div>
     </FilterationPage>
