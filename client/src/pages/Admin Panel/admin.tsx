@@ -65,7 +65,7 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
       if (response.ok) {
         destroyCookie(null, "user");
         setUser(null);
-        router.push("/auth/login");
+        router.push("/home");
       } else {
         const errorData = await response.json();
         console.error("Logout failed:", errorData.message);
@@ -287,7 +287,7 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
                       Profile
                     </a>
                     <a
-                      href="#settings"
+                      href="/home"
                       className={`
                         block px-4 py-2 text-sm transition-colors duration-200
                         ${
@@ -297,7 +297,7 @@ const CustomAdminLayout = ({ children }: { children: ReactNode }) => {
                         }
                       `}
                     >
-                      Preferences
+                      Home
                     </a>
                     <div
                       className={`

@@ -12,6 +12,7 @@ import { useCart } from "@/components/Header/HeaderTop/CardContext";
 
 
 interface Product {
+  _id: string;
   id: number;
   image: string;
   hoverImage: string;
@@ -70,9 +71,7 @@ const ProductDetailClient: React.FC<ProductDetailClientProps> = ({
           }),
         }
       );
-      const handleAddToCart = (product: Product) => {
-        addToCart(product);
-      };
+      
       const session = await response.json();
 
       if (session.id) {
@@ -92,6 +91,7 @@ const ProductDetailClient: React.FC<ProductDetailClientProps> = ({
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="continer mx-auto p-4 mt-10 flex flex-col b gap-8 rubik relative ">

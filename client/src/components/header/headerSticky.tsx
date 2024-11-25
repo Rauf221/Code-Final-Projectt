@@ -118,7 +118,7 @@ const NavBar = () => {
                         key={index}
                         className="w-1/2 px-4 py-1 font-normal text-[#888888] hover:text-cyan-400 hover:translate-x-2 transition-transform duration-300"
                       >
-                        <a href="#">Home {index + 1}</a>
+                        <a href="/home">Home {index + 1}</a>
                       </li>
                     ))}
                   </div>

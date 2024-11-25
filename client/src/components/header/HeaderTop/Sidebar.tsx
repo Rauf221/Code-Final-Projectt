@@ -1,15 +1,79 @@
 "use client";   
-
+import { loadStripe } from "@stripe/stripe-js";
 import React, { useState } from "react";
 import { RiShoppingCartLine, RiDeleteBinLine } from "react-icons/ri";
 import { useCart } from '../../Header/HeaderTop/CardContext';
 
-const ShoppingCartSidebar = () => {
+interface ProductDetailClientProps {
+  product: Product;
+}
+
+interface Product {
+
+
+  _id: number;
+  image: string;
+  hoverImage: string;
+  title: string;
+  category: string;
+  description: string;
+  price: number;
+  brand: string;
+  slug: string;
+  reviews: number;
+  rating: number;
+  specifications: string[];
+}
+
+const ShoppingCartSidebar: React.FC<ProductDetailClientProps> = ({
+  product,
+}) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { cartItems, removeFromCart, updateQuantity, getCartTotal, getTotalItems } = useCart();
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+  
+
+  const handleShopPayCheckout = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        "http://localhost:2000/api/stripe/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            quantity: quantity,
+            productId: product._id,
+            price: product.price,
+            name: product.title,
+          }),
+        }
+      );
+      
+      const session = await response.json();
+
+      if (session.id) {
+        const stripe = await loadStripe(
+          process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+        );
+        await stripe?.redirectToCheckout({
+          sessionId: session.id,
+        });
+      } else {
+        throw new Error("Failed to create checkout session");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong with the checkout process.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -131,8 +195,8 @@ const ShoppingCartSidebar = () => {
                   VIEW CART
                 </button>
                 <button className="w-full px-4 py-3 bg-black text-white font-medium 
-                                 transition-colors hover:bg-gray-900">
-                  CHECK OUT
+                                 transition-colors hover:bg-gray-900" onClick={handleShopPayCheckout} >
+                  {isLoading ? "Processing..." : "Buy Now"}
                 </button>
               </div>
             )}
